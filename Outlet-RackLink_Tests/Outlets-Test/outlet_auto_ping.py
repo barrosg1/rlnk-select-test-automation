@@ -2,6 +2,7 @@ from Config.fixtures_test import TestFixtures
 from Utils.selenium_driver import SeleniumDriver
 from Utils.string_constants import *
 from Utils.test_operation import *
+import sys
 import time
 
 
@@ -23,6 +24,8 @@ class OutletAutoPing(TestFixtures):
         Asserts if the enable button is on/off
 
         """
+        print "Test case function: " + "(" + sys._getframe().f_code.co_name + ")"
+
         driver = SeleniumDriver(self.driver)
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
         enabledBtn = '//div[8]/div[2]/form[1]/button[2]'
@@ -39,4 +42,4 @@ class OutletAutoPing(TestFixtures):
                 state = False
                 assert state == True
 
-            driver.waitAndClick(save_btn_xpath(), XPATH)
+            driver.waitAndClick(outlet_save_btn(), XPATH)

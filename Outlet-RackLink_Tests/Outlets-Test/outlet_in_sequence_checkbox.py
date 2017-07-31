@@ -1,9 +1,12 @@
+# coding=utf-8
 from Config.fixtures_test import TestFixtures
 from Utils.selenium_driver import SeleniumDriver
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
 from Utils.string_constants import *
 from Utils.test_operation import *
+import sys
 import time
-from selenium.webdriver.common.keys import Keys
 
 
 class OutletInSequence(TestFixtures):
@@ -20,36 +23,37 @@ class OutletInSequence(TestFixtures):
                 print "Invalid IP Address"
                 continue
 
-            self.restore_seq_defaults()
-            # self.inSeq_selected()
-            # self.check_inSeq_only()
-
-            # self.seq_down()
-            # self.seq_up()
+            self.inSeq_selected()
+            self.check_inSeq_only()
+            self.seq_down()
+            self.seq_up()
 
     # --------------------------------------------------------------
 
     def restore_seq_defaults(self):
+        """ This function will set the in sequence checkbox of all of the outlets """
+
         driver = SeleniumDriver(self.driver)
         menuIcon = ".//*[@id='wrapper']/header/i"
-        factoryDefaults = "//li[5]"
-        restoreSeqDef = ".//*[@id='factoryDefaults']/p[9]/input"
+        factoryDefaults = "//nav/ul/li[5]"
+        restoreSeqDef = "//*[@id='factoryDefaults']/p[9]/input"
         saveBtn = ".//*[@id='spbg']/button[2]"
 
         driver.waitAndClick(menuIcon, XPATH)
-        driver.waitForElement(factoryDefaults, XPATH)
+        time.sleep(3)
+        elem = driver.getElement(factoryDefaults, XPATH)
+        actions = ActionChains(self.driver)
+        actions.move_to_element(elem)
+        actions.click(elem)
+        actions.perform()
 
-        listArray = []
+        time.sleep(3)
 
-        for item in self.driver.find_elements_by_xpath("//nav/ul"):
-            listArray.append(item)
+        driver.elementClick(restoreSeqDef, XPATH)
+        driver.waitAndClick(saveBtn, XPATH)
 
-        for item in listArray:
-            item.click()
-
-        driver.waitForElement(restoreSeqDef, XPATH)
-        driver.elementClick(saveBtn, XPATH)
-
+        time.sleep(11)
+        driver.elementClick("btnOk", ID)
 
     def inSeq_selected(self):
         """
@@ -59,9 +63,11 @@ class OutletInSequence(TestFixtures):
         outlet
         """
 
+        print "Test case function: " + "(" + sys._getframe().f_code.co_name + ")"
+
         driver = SeleniumDriver(self.driver)
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
-        inSeqInput = "//div[8]/div[2]/form[1]/p[1]/input[contains(@type, 'checkbox')]"
+        inSeqInput = "//div[8]/div[2]/form[1]/p[1]/input"
         outletsWithStateOff = self.driver.find_elements_by_class_name("state-off")
 
         numOfOutletBox = len(outletBoxList)
@@ -70,70 +76,89 @@ class OutletInSequence(TestFixtures):
         if numOutletsStateOff == numOfOutletBox:
             assert numOutletsStateOff == numOfOutletBox
             print "\nAll outlets are already off"
-            self.seq_up()
             return
 
+        outletCount = 1
         for outletBox in outletBoxList:
+            outlet_count(outletCount)
             time.sleep(5)
             outletBox.click()
-            driver.waitForElement(inSeqInput, XPATH)
+            time.sleep(3)
 
             if not driver.isElementSelected(inSeqInput, XPATH):
                 driver.elementClick(inSeqInput, XPATH)
                 assert driver.isElementSelected(inSeqInput, XPATH) == True
-                driver.elementClick(save_btn_xpath(), XPATH)
+                driver.waitAndClick(outlet_save_btn(), XPATH)
             else:
-                driver.waitAndClick(save_btn_xpath(), XPATH)
+                driver.waitAndClick(outlet_save_btn(), XPATH)
 
             if 'in-sequence' in outletBox.get_attribute(ClASS):
                 assert 'in-sequence' in outletBox.get_attribute(ClASS)
 
+            outletCount += 1
+
         time.sleep(8)
 
-
     def check_inSeq_only(self):
+        """
+        Verify that the outlet is no longer displayed in the Outlet Control
+        section with the “Show in Sequence Outlets Only”
+        Verify “There are currently no outlets which are set with in
+        sequence setting checked" pops up
+
+        """
+
+        print "Test case function: " + "(" + sys._getframe().f_code.co_name + ")"
         driver = SeleniumDriver(self.driver)
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
-        inSeqOnlyOption = "ocFilter"
+        inSeqOnlyOption = "//*[@id='ocFilter']/option[contains(@value, 'sequenced')]"
         inSeqInput = "//div[8]/div[2]/form[1]/p[1]/input[contains(@type, 'checkbox')]"
-
-        driver.waitAndClick(inSeqOnlyOption, ID)
+        clickAway = ".//*[@id='outletControl']/h1"
+        theMsg = ".//*[@id='notify']/div"
 
         time.sleep(3)
-        driver.elementClick(".//*[@id='ocFilter']/option[2]", XPATH)
-        driver.waitAndClick(".//*[@id='outletControl']/h1", XPATH)
+        driver.waitAndClick("ocFilter", ID)
 
+        time.sleep(3)
+        driver.waitAndClick(inSeqOnlyOption, XPATH)
+        driver.waitAndClick(clickAway, XPATH)
+
+        time.sleep(2)
         index = 2
         for outletBox in outletBoxList:
             outletCtrlStr = ".//*[@id='outletControl']/div[{0}]/div[1]".format(index)
-            outletClass = driver.getElementAttribute(outletCtrlStr, XPATH, ClASS)
-            if 'hidden' in outletClass:
+            if not outletBox.is_displayed():
                 continue
+
             time.sleep(5)
             outletBox.click()
-            driver.waitForElement(inSeqInput, XPATH)
 
-            if driver.isElementSelected(inSeqInput, XPATH):
-                driver.waitAndClick(inSeqInput, XPATH)
-                driver.waitAndClick(save_btn_xpath(), XPATH)
+            driver.waitAndClick(inSeqInput, XPATH)
+            driver.waitAndClick(outlet_save_btn(), XPATH)
 
             time.sleep(8)
-            driver.waitForElement(outletCtrlStr, XPATH)
-            driver.getElement(outletCtrlStr, XPATH)
-
-            if driver.isElementPresent(outletCtrlStr, XPATH):
-                print "Element is present"
-            else:
-                print "Element is not present"
-
+            outletDisplayed = self.driver.find_element_by_xpath(outletCtrlStr).is_displayed()
+            if not outletDisplayed:
+                assert outletDisplayed == False
+                print "Outlet is no longer in-sequence |  PASSED"
 
             index += 1
+
+        theMsgDisplayed = self.driver.find_element_by_xpath(theMsg).is_displayed()
+        if theMsgDisplayed:
+            driver.waitAndClick("btnOk", ID)
+
+        assert theMsgDisplayed == True
+        print '"Currently no outlets in in-seq" message displayed |  PASSED '
+
         time.sleep(8)
 
     def seq_down(self):
         """ Tests sequence down
             Asserts a valid delay input
         """
+        print "Test case function: " + "(" + sys._getframe().f_code.co_name + ")"
+
         driver = SeleniumDriver(self.driver)
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
         outletsWithStateOff = self.driver.find_elements_by_class_name("state-off")
@@ -146,6 +171,9 @@ class OutletInSequence(TestFixtures):
         numOfOutletBox = len(outletBoxList)
         numOutletsStateOff = len(outletsWithStateOff)
 
+        self.restore_seq_defaults()
+
+        time.sleep(4)
         if numOutletsStateOff == numOfOutletBox:
             assert numOutletsStateOff == numOfOutletBox
             print "\nAll outlets are already off"
@@ -163,18 +191,23 @@ class OutletInSequence(TestFixtures):
                     driver.sendInput(delayInput, XPATH, inputNum)
 
                     delayInputVal = driver.getElementAttribute(delayInput, XPATH, VALUE)
-
-                    assert int(delayInputVal) == inputNum
                     assert 255 >= int(delayInputVal) >= 1
+                    print "Delay input value is within 1 - 255 |  PASSED"
 
                     driver.waitAndClick(initiateBtn, XPATH)
                     break
-            time.sleep(inputNum * 2)
+            time.sleep(inputNum * numOfOutletBox)
+
+        outletsWithStateOff = self.driver.find_elements_by_class_name("state-off")
+        numOutletsStateOff = len(outletsWithStateOff)
+        assert numOutletsStateOff == numOfOutletBox
 
     def seq_up(self):
         """ Tests sequence up
             Asserts a valid delay input
         """
+        print "Test case function: " + "(" + sys._getframe().f_code.co_name + ")"
+
         driver = SeleniumDriver(self.driver)
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
         upBtn = ".//*[@id='sequenceControl']/div[2]/div/button[1]"
@@ -205,10 +238,15 @@ class OutletInSequence(TestFixtures):
                     driver.sendInput(delayInput, XPATH, inputNum)
 
                     delayInputVal = driver.getElementAttribute(delayInput, XPATH, VALUE)
-
-                    assert int(delayInputVal) == inputNum
                     assert 255 >= int(delayInputVal) >= 1
+                    print "Delay input value is withing 1 - 255 |  PASSED"
 
                     driver.waitAndClick(initiateBtn, XPATH)
                     break
-        time.sleep(inputNum * 2)
+
+        time.sleep(inputNum * numOfOutletBox)
+
+        outletsWithStateOn = self.driver.find_elements_by_class_name("state-on")
+        numOutletsStateOn = len(outletsWithStateOn)
+        assert numOutletsStateOn == numOfOutletBox
+        print "All visible outlets turned on |  PASSED"

@@ -1,9 +1,19 @@
+"""
+There are two ways to run the test suite:
+
+1) run using TextTestRunner class to see results on the command line
+2) run using HTMLTestRunner class to see results in HTML
+
+To add another test to the suite, simply import the test class and append it to the tests array
+
+"""
+
 import unittest
 from unittest import TestLoader, TestSuite
 from Config import HTMLTestRunner
 import datetime
 
-# TestCase classes import
+# -------- TestCase classes import -------------
 from outlet_name_change import OutletNameChange
 from outlet_powerstate_change import OutletPowerState
 from outlet_in_sequence_checkbox import OutletInSequence
@@ -11,18 +21,24 @@ from outlet_auto_ping import OutletAutoPing
 from outlet_cycle_delay import OutletCycleDelay
 from outlet_edit_cancel_func import OutletEditCancel
 from outlet_ip_address_to_ping import OutletIpAddressPing
+from outlet_retries_test import OutletRetries
+from outlet_frequency_test import OutletFrequency
+
+# -------------------------------------------------
 
 if __name__ == "__main__":
-
+    """ 
     # Create a test list
     tests = [
         # OutletNameChange,
-        # OutletPowerState,
-        # OutletInSequence
+          OutletInSequence
         # OutletAutoPing,
-        OutletCycleDelay,
+        # OutletCycleDelay,
         # OutletEditCancel,
         # OutletIpAddressPing
+        # OutletRetries,
+        # OutletFrequency
+        # OutletPowerState
     ]
 
     # Load test cases
@@ -42,19 +58,22 @@ if __name__ == "__main__":
 
     # -----------------------------------------------------------------------------------------------------
 
-    """ 
+    """
+       
     file_name = datetime.datetime.now().strftime("HTML_Reports/%Y_%m_%d_%H%M_RackLink-Select-Report.html")
 
     output = open(file_name, "wb")
 
     tests = [
-        #OutletNameChange,
-        #OutletPowerState,
-        #OutletInSequence,
-        #OutletAutoPing,
+        OutletNameChange,
+        OutletRetries,
+        OutletInSequence,
+        OutletAutoPing,
         OutletCycleDelay,
-        #OutletEditCancel,
-        #OutletIpAddressPing
+        OutletEditCancel,
+        OutletIpAddressPing,
+        OutletFrequency,
+        OutletPowerState
     ]
 
     loader = TestLoader()
@@ -68,5 +87,3 @@ if __name__ == "__main__":
 
     runner = HTMLTestRunner.HTMLTestRunner(stream=output, verbosity=2, title="RackLink Select Automated Test Results")
     runner.run(suite)
-
-    """

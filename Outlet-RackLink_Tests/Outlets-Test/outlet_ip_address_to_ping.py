@@ -2,6 +2,7 @@ from Config.fixtures_test import TestFixtures
 from Utils.selenium_driver import SeleniumDriver
 from Utils.string_constants import *
 from Utils.test_operation import *
+import sys
 import time
 
 
@@ -32,6 +33,7 @@ class OutletIpAddressPing(TestFixtures):
                 '.8.8.8' -> A node cannot be empty
                 '8.8.8' -> There must be exactly 4 nodes separated by dots (periods)
         """
+        print "Test case function: " + "(" + sys._getframe().f_code.co_name + ")"
 
         driver = SeleniumDriver(self.driver)
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
@@ -59,7 +61,7 @@ class OutletIpAddressPing(TestFixtures):
                     driver.waitForElement(ipAddressInputElem, XPATH)
                     driver.sendInput(ipAddressInputElem, XPATH, ip)
 
-                    driver.waitAndClick(save_btn_xpath(), XPATH)
+                    driver.waitAndClick(outlet_save_btn(), XPATH)
 
                     ipNumVal = driver.getElementAttribute(ipAddressInputElem, XPATH, VALUE)
                     notifyMsgClass = driver.getElementAttribute(notifyMsg, XPATH, ClASS)
@@ -85,6 +87,6 @@ class OutletIpAddressPing(TestFixtures):
                         time.sleep(1)
                     print "Testing: " + ip + " | has-error class appeared | " + "  PASSED"
                 driver.sendInput(ipAddressInputElem, XPATH, "8.8.8.8")
-                driver.waitAndClick(save_btn_xpath(), XPATH)
+                driver.waitAndClick(outlet_save_btn(), XPATH)
 
             index += 1

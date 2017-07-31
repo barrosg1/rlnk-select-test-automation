@@ -1,4 +1,2 @@
-
-OutletTest.py: main file to test the UI
 Selenium_Driver.py: handy class to minimize selenium repetitive tasks
 string_constants.py: Utils that return a string (primarily for locators)

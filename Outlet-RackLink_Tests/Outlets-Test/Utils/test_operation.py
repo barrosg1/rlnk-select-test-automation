@@ -1,6 +1,19 @@
+"""
+These functions handle functionality including but not limited to:
+ - tests' operations
+ - repetitive tasks
+ - repetitive commands
+
+"""
+
+
 def ip_baseUrl_title(baseUrl):
     print "\n\nTesting on IP Address: " + baseUrl
     print "\n--------------------------------------------"
+
+
+def outlet_count(count):
+    print "\n::::: Outlet " + str(count) + " :::::\n"
 
 
 def get_ip_addresses():

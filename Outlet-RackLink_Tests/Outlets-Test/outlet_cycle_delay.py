@@ -4,6 +4,7 @@ from Utils.selenium_driver import SeleniumDriver
 from Utils.string_constants import *
 from Utils.test_operation import *
 from selenium.common.exceptions import *
+import sys
 import time
 
 
@@ -20,7 +21,7 @@ class OutletCycleDelay(TestFixtures):
                 print "Invalid IP Address"
                 continue
 
-            # self.cycle_invalid_input()
+            self.cycle_invalid_input()
             self.outlet_cycle()
 
     # ------------------------------------------------------------
@@ -33,6 +34,8 @@ class OutletCycleDelay(TestFixtures):
         - Verify that the input has a red border to show an error
 
         """
+        print "Test case function: " + "(" + sys._getframe().f_code.co_name + ")"
+
         driver = SeleniumDriver(self.driver)
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
         cycleNum = 0  # cycle number in seconds
@@ -50,7 +53,7 @@ class OutletCycleDelay(TestFixtures):
             if 'state-off' in outletCtrlClass:
                 index += 1
             else:
-                print "\n::::: Outlet " + str(outletCount) + " :::::\n"
+                outlet_count(outletCount)
                 outletBox.click()
                 driver.waitForElement(cycleInput, XPATH)
                 driver.sendInput(cycleInput, XPATH, cycleNum)
@@ -78,77 +81,96 @@ class OutletCycleDelay(TestFixtures):
 
                 assert hasError == True
 
+                driver.waitAndClick(cancel_btn_xpath(), XPATH)
+
                 outletCount += 1
 
     def outlet_cycle(self):
         """
         Verify that the cycle input is between 1 - 999
-        Verify that you get the “Are you sure…” message
+        Verify “Are you sure…” message appears
         Verify success message appears
-        verify the corresponding light went off
-        Verify that the outlet shrinks out of editmode
+        Verify that the outlet face has changed color
+        Verify that the outlet shrinks out of edit mode
 
         """
+
+        print "Test case function: " + "(" + sys._getframe().f_code.co_name + ")"
 
         driver = SeleniumDriver(self.driver)
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
         cycleNum = 10  # cycle number in seconds
         cycleInput = '//div[8]/div[2]/form[1]/p[2]/input'
         startCycleBtn = "//div[8]/div[2]/form[1]/p[2]/button"
-        notifyMsg = ".//*[@id='notify']"
+        notifyMsg = "//*[@id='notify']"
+        outletEditMode = "//div[8]"
 
         outletCount = 1
         index = 2
         for outletBox in outletBoxList:
-            outletCtrlStr = ".//*[@id='outletControl']/div[{0}]/div[1]".format(index)
-            outletCtrlClass = driver.getElementAttribute(outletCtrlStr, XPATH, ClASS)
+            outletCtrlStr = "//*[@id='outletControl']/div[{0}]/div[1]".format(index)
             time.sleep(5)
 
-            if 'state-off' in outletCtrlClass:
-                index += 1
+            outlet_count(outletCount)
+            outletBox.click()
+            driver.waitForElement(cycleInput, XPATH)
+            driver.sendInput(cycleInput, XPATH, cycleNum)
+
+            # Verify that the cycle input is between 1 - 999
+            cycleInputVal = driver.getElementAttribute(cycleInput, XPATH, VALUE)
+            assert 1 <= int(cycleInputVal) <= 999
+            print "Input value is between 1 - 999 |  PASSED"
+
+            driver.elementClick(startCycleBtn, XPATH)
+
+            # Verify “Are you sure…” message appears
+            notifyMsgClass = driver.getElementAttribute(notifyMsg, XPATH, ClASS)
+            if 'hidden' not in notifyMsgClass:
+                notifyShowed = True
             else:
-                print "\n::::: Outlet " + str(outletCount) + " :::::\n"
-                outletBox.click()
-                driver.waitForElement(cycleInput, XPATH)
-                driver.sendInput(cycleInput, XPATH, cycleNum)
+                notifyShowed = False
 
-                cycleInputVal = driver.getElementAttribute(cycleInput, XPATH, VALUE)
+            assert notifyShowed == True
+            print "Are you sure.. message appeared |  PASSED"
 
-                assert 1 <= int(cycleInputVal) <= 999
-                print "Input value is between 1 - 999 |  PASSED"
+            driver.elementClick("btnOk", ID)
 
-                driver.elementClick(startCycleBtn, XPATH)
+            # Verify success message appears
+            driver.waitForElement("successMsg", ID)
+            successMsg = driver.isElementPresent("successMsg", ID)
+            if successMsg:
+                assert successMsg == True
+                print "Success Message appeared |  PASSED"
 
-                notifyMsgClass = driver.getElementAttribute(notifyMsg, XPATH, ClASS)
-                if 'hidden' not in notifyMsgClass:
-                    notifyShowed = True
-                    print "Are you sure.. message appeared |  PASSED"
-                else:
-                    notifyShowed = False
+            driver.waitAndClick(close_btn_msg(), XPATH)
 
-                assert notifyShowed == True
+            # Verify that the outlet face has changed color
+            time.sleep(5)
+            driver.getElement(outletCtrlStr, XPATH)
+            outletCtrlClass = driver.getElementAttribute(outletCtrlStr, XPATH, ClASS)
+            if 'state-off' in outletCtrlClass:
+                state = False
+            else:
+                state = True
 
-                driver.elementClick("btnOk", ID)
+            assert state == False
+            print "Outlet state is off for " + str(cycleNum) + " seconds |  PASSED"
 
-                driver.waitForElement("successMsg", ID)
-                successMsg = driver.isElementPresent("successMsg", ID)
-
-                if successMsg:
-                    assert successMsg == True
-                    print "Success Message appeared |  PASSED"
-
-                driver.waitAndClick(".//*[@id='closeBtn6']/span", XPATH)
-
-                time.sleep(3)
-                driver.waitForElement(outletCtrlStr, XPATH)
-                driver.getElement(outletCtrlStr, XPATH)
-                print driver.getElementAttribute(outletCtrlStr, XPATH, ClASS)
-
-                time.sleep(cycleNum-3)
-                driver.waitForElement(outletCtrlStr, XPATH)
-                driver.getElement(outletCtrlStr, XPATH)
-                print driver.getElementAttribute(outletCtrlStr, XPATH, ClASS)
+            time.sleep(cycleNum)
+            driver.getElement(outletCtrlStr, XPATH)
+            outletCtrlClass = driver.getElementAttribute(outletCtrlStr, XPATH, ClASS)
+            if 'state-on' in outletCtrlClass:
+                state = True
+            else:
+                state = False
+            assert state == True
+            print "Outlet state changed back to on |  PASSED"
+            
+            # Verify that the outlet shrinks out of edit 0mode
+            assert driver.isElementPresent(outletEditMode, XPATH) == False
+            print "Outlet shrunk out of edit mode | PASSED"
 
             outletCount += 1
+            index += 1
 
-        time.sleep(cycleNum)
+            time.sleep(8)

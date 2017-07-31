@@ -4,6 +4,12 @@ Custom Selenium driver class
 All member methods of the SeleniumDriver class takes care of repetitive tasks
 from Selenium
 
+Example 1: instead of using self.driver.find_element_by_id("element_id")
+         Use driver.getElement("element_id", "id")
+
+Example 2: instead of using self.driver.find_element_by_xpath("//div[8]/button").click()
+           Use driver.elementClick("//div[8]/button", "xpath")
+
 """
 
 from selenium.webdriver.common.by import By
@@ -88,10 +94,8 @@ class SeleniumDriver:
                 self.locatorFound(locator)
                 return True
             else:
-                self.locatorNotFound(locator)
                 return False
         except NoSuchElementException:
-            self.locatorNotFound(locator)
             return False
 
     def isElementSelected(self, locator, byType):
@@ -141,12 +145,16 @@ class SeleniumDriver:
             print("\nElement " + str(locator) + " did not appear on the web page")
         return element
 
-    def waitAndClick(self, locator, locatorType):
+    def waitAndClick(self, locator, locatorType,
+                     timeout=10, pollFrequency=0.5):
+
         """
         Function waits for an element to be present and then click on the element
 
         :param locator: a string
         :param locatorType: id, xpath, class, css, link text
+        :param timeout: time (in seconds) to wait for an element to be clickable
+        :param pollFrequency: how frequent (in seconds) it will try to poll the element
 
         """
 
