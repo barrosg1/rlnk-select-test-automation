@@ -1,30 +1,18 @@
 # coding=utf-8
-from Config.fixtures_test import TestFixtures
+import sys
+import time
+
+from Utils.fixtures_test import TestFixtures
+
 from Utils.selenium_driver import SeleniumDriver
 from Utils.string_constants import *
 from Utils.test_operation import *
-from selenium.common.exceptions import *
-import sys
-import time
 
 
 class OutletCycleDelay(TestFixtures):
     def test_outlet_cycle_delay(self):
-        ipAddresses = get_ip_addresses()
-        for ipAddress in ipAddresses:
-            self.baseUrl = ipAddress
-
-            ip_baseUrl_title(self.baseUrl)
-            try:
-                self.driver.get(self.baseUrl)
-            except:
-                print "Invalid IP Address"
-                continue
-
-            self.cycle_invalid_input()
-            self.outlet_cycle()
-
-    # ------------------------------------------------------------
+        self.cycle_invalid_input()
+        self.outlet_cycle()
 
     def cycle_invalid_input(self):
         """

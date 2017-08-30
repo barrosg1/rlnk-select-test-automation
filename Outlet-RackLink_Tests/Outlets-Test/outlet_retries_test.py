@@ -1,30 +1,19 @@
 # coding=utf-8
-from Config.fixtures_test import TestFixtures
+import sys
+import time
+
+from Utils.fixtures_test import TestFixtures
+
 from Utils.selenium_driver import SeleniumDriver
 from Utils.string_constants import *
 from Utils.test_operation import *
-import sys
-import time
 
 
 class OutletRetries(TestFixtures):
     def test_outlet_power_state_change(self):
-        ipAddresses = get_ip_addresses()
-        for ipAddress in ipAddresses:
-            self.baseUrl = ipAddress
-
-            ip_baseUrl_title(self.baseUrl)
-            try:
-                self.driver.get(self.baseUrl)
-            except:
-                print "Invalid IP Address"
-                continue
-
-            self.verify_notify_msg_zero()
-            print "\n--------------------------------------------\n"
-            self.verify_success_msg()
-            print "\n--------------------------------------------\n"
-            self.verify_notify_msg_250()
+        self.verify_notify_msg_zero()
+        self.verify_success_msg()
+        self.verify_notify_msg_250()
 
     def verify_notify_msg_zero(self):
         """

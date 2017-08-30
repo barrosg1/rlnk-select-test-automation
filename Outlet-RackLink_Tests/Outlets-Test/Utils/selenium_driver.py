@@ -15,11 +15,11 @@ Example 2: instead of using self.driver.find_element_by_xpath("//div[8]/button")
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import *
 
 
 class SeleniumDriver:
-
     def __init__(self, driver):
         self.driver = driver
 
@@ -135,7 +135,6 @@ class SeleniumDriver:
         element = None
         try:
             byType = self.getByType(locatorType)
-            # print("\nWaiting for maximum :: " + str(timeout) + " :: seconds for element to be clickable")
             wait = WebDriverWait(self.driver, 10, poll_frequency=0.5,
                                  ignored_exceptions=[NoSuchElementException,
                                                      ElementNotVisibleException,
@@ -163,7 +162,8 @@ class SeleniumDriver:
             self.waitForElement(locator, locatorType)
             element.click()
         except NoSuchElementException:
-            print("\nCannot click on the element with locator: " + locator + " locatorType: " + locatorType)
+            print("\nCannot click on the element with locator: " +
+                  locator + " locatorType: " + locatorType)
 
     def sendInput(self, locator, locatorType, inputString):
         """
@@ -178,6 +178,7 @@ class SeleniumDriver:
 
         sendInputIn = None
         try:
+            self.waitForElement(locator, locatorType)
             sendInputIn = self.getElement(locator, locatorType)
             sendInputIn.clear()
             sendInputIn.send_keys(inputString)
@@ -200,3 +201,22 @@ class SeleniumDriver:
         except NoSuchElementException:
             self.locatorNotFound(locator)
         return elementAttr
+
+    def forceClick(self, locator, locatorType):
+        """
+        If an element can't be click with the standar click() function
+        then try to force click the element. (mostly used with list <li> in this project)
+
+        :param locator: a string
+        :param locatorType: id, xpath, class, css, link text
+
+        """
+        try:
+            elem = self.getElement(locator, locatorType)
+            actions = ActionChains(self.driver)
+            actions.move_to_element(elem)
+            actions.click(elem)
+            actions.perform()
+        except NoSuchElementException:
+            print("\nCannot click on the element with locator: " +
+                  locator + " locatorType: " + locatorType)

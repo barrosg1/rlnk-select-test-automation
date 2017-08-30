@@ -12,6 +12,7 @@ import unittest
 from unittest import TestLoader, TestSuite
 from Config import HTMLTestRunner
 import datetime
+from Utils.test_operation import *
 
 # -------- TestCase classes import -------------
 from outlet_name_change import OutletNameChange
@@ -23,15 +24,15 @@ from outlet_edit_cancel_func import OutletEditCancel
 from outlet_ip_address_to_ping import OutletIpAddressPing
 from outlet_retries_test import OutletRetries
 from outlet_frequency_test import OutletFrequency
-
-# -------------------------------------------------
+from outlet_recovery_action import OutletRecoveryAction
+from outlet_date_time import OutletDateTime
 
 if __name__ == "__main__":
-    """ 
+
     # Create a test list
     tests = [
         # OutletNameChange,
-          OutletInSequence
+        # OutletInSequence
         # OutletAutoPing,
         # OutletCycleDelay,
         # OutletEditCancel,
@@ -39,6 +40,8 @@ if __name__ == "__main__":
         # OutletRetries,
         # OutletFrequency
         # OutletPowerState
+        # OutletRecoveryAction
+        OutletDateTime
     ]
 
     # Load test cases
@@ -61,7 +64,7 @@ if __name__ == "__main__":
     """
        
     file_name = datetime.datetime.now().strftime("HTML_Reports/%Y_%m_%d_%H%M_RackLink-Select-Report.html")
-
+l
     output = open(file_name, "wb")
 
     tests = [
@@ -87,3 +90,5 @@ if __name__ == "__main__":
 
     runner = HTMLTestRunner.HTMLTestRunner(stream=output, verbosity=2, title="RackLink Select Automated Test Results")
     runner.run(suite)
+    
+    """

@@ -1,30 +1,17 @@
-from Config.fixtures_test import TestFixtures
+import sys
+import time
+
+from Utils.fixtures_test import TestFixtures
 from Utils.selenium_driver import SeleniumDriver
 from Utils.string_constants import *
 from Utils.test_operation import *
-import sys
-import time
 
 
 class OutletNameChange(TestFixtures):
     def test_outlet_name(self):
-        ipAddresses = get_ip_addresses()
-
-        for ipAddress in ipAddresses:
-            self.baseUrl = ipAddress
-
-            ip_baseUrl_title(self.baseUrl)
-            try:
-                self.driver.get(self.baseUrl)
-            except:
-                print "Invalid IP Address"
-                continue
-
-            self.outlet_name_not_changed()
-            self.outlet_name_blank()
-            self.outlet_name_length()
-
-    # --------------------------------------------------------------
+        self.outlet_name_not_changed()
+        self.outlet_name_blank()
+        self.outlet_name_length()
 
     def outlet_name_not_changed(self):
         """
@@ -101,7 +88,6 @@ class OutletNameChange(TestFixtures):
             driver.getElement(outletNameElement, XPATH)
 
             outletNameElementClass = driver.getElementAttribute(outletNameElement, XPATH, ClASS)
-
             if 'has-error' in outletNameElementClass:
                 expectedOpGood = True
                 driver.waitAndClick("btnOk", ID)

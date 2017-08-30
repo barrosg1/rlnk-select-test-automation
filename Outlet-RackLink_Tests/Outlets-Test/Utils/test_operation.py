@@ -17,7 +17,7 @@ def outlet_count(count):
 
 
 def get_ip_addresses():
-    inFile = open("test_ip_addresses.txt", "r")
+    inFile = open(".\\test_ip_addresses.txt", "r")
     lines = inFile.readlines()
     inFile.close()
 

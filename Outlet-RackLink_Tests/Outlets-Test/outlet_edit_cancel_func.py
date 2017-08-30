@@ -1,25 +1,16 @@
 # coding=utf-8
-from Config.fixtures_test import TestFixtures
+import sys
+import time
+
+from Utils.fixtures_test import TestFixtures
+
 from Utils.selenium_driver import SeleniumDriver
 from Utils.string_constants import *
 from Utils.test_operation import *
-import sys
-import time
 
 
 class OutletEditCancel(TestFixtures):
     def test_outlet_edit_cancel(self):
-        ipAddresses = get_ip_addresses()
-        for ipAddress in ipAddresses:
-            self.baseUrl = ipAddress
-
-            ip_baseUrl_title(self.baseUrl)
-            try:
-                self.driver.get(self.baseUrl)
-            except:
-                print "Invalid IP Address"
-                continue
-
             self.edit_cancel_btn()
 
     def edit_cancel_btn(self):
@@ -29,7 +20,7 @@ class OutletEditCancel(TestFixtures):
         verify that the outlet no longer has the “guitarSolo” class
 
         """
-        print "Test case function: " + "(" + sys._getframe().f_code.co_name + ")"
+        print "\nTest case function: " + "(" + sys._getframe().f_code.co_name + ")"
 
         driver = SeleniumDriver(self.driver)
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())

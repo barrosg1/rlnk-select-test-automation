@@ -1,34 +1,21 @@
 # coding=utf-8
-from Config.fixtures_test import TestFixtures
-from Utils.selenium_driver import SeleniumDriver
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.keys import Keys
-from Utils.string_constants import *
-from Utils.test_operation import *
 import sys
 import time
+
+from Utils.fixtures_test import TestFixtures
+from selenium.webdriver.common.action_chains import ActionChains
+
+from Utils.selenium_driver import SeleniumDriver
+from Utils.string_constants import *
+from Utils.test_operation import *
 
 
 class OutletInSequence(TestFixtures):
     def test_outlet_in_sequence(self):
-        ipAddresses = get_ip_addresses()
-
-        for ipAddress in ipAddresses:
-            self.baseUrl = ipAddress
-
-            ip_baseUrl_title(self.baseUrl)
-            try:
-                self.driver.get(self.baseUrl)
-            except:
-                print "Invalid IP Address"
-                continue
-
-            self.inSeq_selected()
-            self.check_inSeq_only()
-            self.seq_down()
-            self.seq_up()
-
-    # --------------------------------------------------------------
+        #self.inSeq_selected()
+        #self.check_inSeq_only()
+        self.seq_down()
+        #self.seq_up()
 
     def restore_seq_defaults(self):
         """ This function will set the in sequence checkbox of all of the outlets """
@@ -41,11 +28,7 @@ class OutletInSequence(TestFixtures):
 
         driver.waitAndClick(menuIcon, XPATH)
         time.sleep(3)
-        elem = driver.getElement(factoryDefaults, XPATH)
-        actions = ActionChains(self.driver)
-        actions.move_to_element(elem)
-        actions.click(elem)
-        actions.perform()
+        driver.forceClick(factoryDefaults, XPATH)
 
         time.sleep(3)
 
