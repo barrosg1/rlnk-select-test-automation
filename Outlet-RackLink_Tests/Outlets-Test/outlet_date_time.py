@@ -3,10 +3,8 @@
 import time
 import unittest
 from Utils.fixtures_test import TestFixtures
-from selenium.webdriver.common.action_chains import ActionChains
 from Utils.selenium_driver import SeleniumDriver
 from Utils.string_constants import *
-from Utils.test_operation import *
 
 
 class OutletDateTime(TestFixtures):

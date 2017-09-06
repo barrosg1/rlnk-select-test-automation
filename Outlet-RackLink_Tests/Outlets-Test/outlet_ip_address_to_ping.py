@@ -30,7 +30,7 @@ class OutletIpAddressPing(TestFixtures):
         enabledBtn = '//div[8]/div[2]/form[1]/button[2]'
         ipAddressInputElem = '//div[8]/div[2]/form[2]/p[1]/input'
         notifyMsg = ".//*[@id='notify']"
-        ipAddresses = ['0.8.8.8', '8.8.8.0', '255.8.8.8', '20.255.90' '8.8.8', '8.8.8.8.8']
+        ipAddresses = ['0.8.8.8', '8.8.8.0', '255.8.8.8', '20.255.90', '8.8.8', '8.8.8.8.8']
 
         index = 1
         for outletBox in outletBoxList:
@@ -43,12 +43,12 @@ class OutletIpAddressPing(TestFixtures):
             if 'state1' not in enabledBtnClass or 'state2' in enabledBtnClass:
                 driver.waitAndClick(enabledBtn, XPATH)
 
-            driver.waitForElement(enabledBtn, XPATH)
+            driver.waitUntilClickable(enabledBtn, XPATH)
             driver.getElement(enabledBtn, XPATH)
 
             if 'state1' in enabledBtnClass:
                 for ip in ipAddresses:
-                    driver.waitForElement(ipAddressInputElem, XPATH)
+                    driver.waitUntilClickable(ipAddressInputElem, XPATH)
                     driver.sendInput(ipAddressInputElem, XPATH, ip)
 
                     driver.waitAndClick(outlet_save_btn(), XPATH)
@@ -70,9 +70,9 @@ class OutletIpAddressPing(TestFixtures):
                         elif "255" in ip:
                             assert node_255(ipNumVal, ipInputClass) == expectedOpGood
                         elif len(nodes) < 4:
-                            assert short_node_length(ipNumVal, ipInputClass) == expectedOpGood
+                            assert short_ip_node_length(ipNumVal, ipInputClass) == expectedOpGood
                         else:
-                            assert long_node_length(ipNumVal, ipInputClass) == expectedOpGood
+                            assert long_ip_node_length(ipNumVal, ipInputClass) == expectedOpGood
 
                         time.sleep(1)
                     print "Testing: " + ip + " | has-error class appeared | " + "  PASSED"

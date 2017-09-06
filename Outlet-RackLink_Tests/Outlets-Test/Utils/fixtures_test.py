@@ -6,6 +6,8 @@ have both setUp and tearDown.
 
 import unittest
 from selenium import webdriver
+from selenium_driver import SeleniumDriver
+from string_constants import *
 from test_operation import *
 import time
 
@@ -28,5 +30,27 @@ class TestFixtures(unittest.TestCase):
         time.sleep(5)
         self.driver.quit()
         print "\n--------------------------------------------\n"
+
+    def is_hidden_string(self, element):
+        driver = SeleniumDriver(self.driver)
+
+        driver.getElement(element, XPATH)
+        element_class = driver.getElementAttribute(element, XPATH, ClASS)
+
+        if 'hidden' in element_class:
+            return True
+        else:
+            return False
+
+    def has_error(self, inputBox):
+        driver = SeleniumDriver(self.driver)
+
+        driver.getElement(inputBox, XPATH)
+        inputBoxClass = driver.getElementAttribute(inputBox, XPATH, ClASS)
+
+        if 'has-error' in inputBoxClass:
+            return True
+        else:
+            return False
 
     

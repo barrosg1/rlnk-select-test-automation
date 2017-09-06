@@ -469,7 +469,7 @@ class OutletRecoveryAction(TestFixtures):
             else:
                 driver.waitAndClick(powerCycleOnce, XPATH)
                 self.driver.find_element_by_xpath(powerCycleOnce).send_keys(Keys.ENTER)
-                driver.waitForElement(cycleDelayElem, XPATH)
+                driver.waitUntilClickable(cycleDelayElem, XPATH)
                 driver.sendInput(cycleDelayElem, XPATH, cycleDelay)
                 driver.waitAndClick(outlet_save_btn(), XPATH)
 
@@ -592,7 +592,7 @@ class OutletRecoveryAction(TestFixtures):
             else:
                 driver.waitAndClick(powerCycUntilRec, XPATH)
                 self.driver.find_element_by_xpath(powerCycUntilRec).send_keys(Keys.ENTER)
-                driver.waitForElement(cycleDelayElem, XPATH)
+                driver.waitUntilClickable(cycleDelayElem, XPATH)
                 driver.sendInput(cycleDelayElem, XPATH, cycleDelay)
                 driver.waitAndClick(outlet_save_btn(), XPATH)
 

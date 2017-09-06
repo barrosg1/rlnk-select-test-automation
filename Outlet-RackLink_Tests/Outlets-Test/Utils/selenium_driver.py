@@ -119,8 +119,8 @@ class SeleniumDriver:
             self.locatorNotFound(locator)
             return False
 
-    def waitForElement(self, locator, locatorType="id",
-                       timeout=10, pollFrequency=0.5):
+    def waitUntilClickable(self, locator, locatorType="id",
+                           timeout=10, pollFrequency=0.5):
         """
         Function waits for an element to be clickable
 
@@ -144,6 +144,31 @@ class SeleniumDriver:
             print("\nElement " + str(locator) + " did not appear on the web page")
         return element
 
+    def waitForVisibility(self, locator, locatorType="id",
+                           timeout=10, pollFrequency=0.5):
+        """
+        Function waits for element to be both present in the DOM and visible on the UI
+
+        :param locator: a string
+        :param locatorType: id, xpath, class, css, link text
+        :param timeout: time (in seconds) to wait for an element to be clickable
+        :param pollFrequency: how frequent (in seconds) it will try to poll the element
+        :return: returns the desired element
+
+        """
+
+        element = None
+        try:
+            byType = self.getByType(locatorType)
+            wait = WebDriverWait(self.driver, 10, poll_frequency=0.5,
+                                 ignored_exceptions=[NoSuchElementException,
+                                                     ElementNotVisibleException,
+                                                     ElementNotSelectableException])
+            element = wait.until(EC.visibility_of_element_located((byType, locator)))
+        except ElementNotVisibleException:
+            print("\nElement " + str(locator) + " did not appear on the web page")
+        return element
+
     def waitAndClick(self, locator, locatorType,
                      timeout=10, pollFrequency=0.5):
 
@@ -159,7 +184,7 @@ class SeleniumDriver:
 
         try:
             element = self.getElement(locator, locatorType)
-            self.waitForElement(locator, locatorType)
+            self.waitUntilClickable(locator, locatorType)
             element.click()
         except NoSuchElementException:
             print("\nCannot click on the element with locator: " +
@@ -178,7 +203,7 @@ class SeleniumDriver:
 
         sendInputIn = None
         try:
-            self.waitForElement(locator, locatorType)
+            self.waitUntilClickable(locator, locatorType)
             sendInputIn = self.getElement(locator, locatorType)
             sendInputIn.clear()
             sendInputIn.send_keys(inputString)

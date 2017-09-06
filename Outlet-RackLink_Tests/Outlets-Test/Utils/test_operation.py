@@ -37,6 +37,17 @@ def ip_nodes(ipNumVal):
     return nodes
 
 
+def host_nodes(ipNumVal):
+    nodes = ipNumVal.split(".")
+
+    charNodes = []
+
+    for node in nodes:
+        if not node.isdigit():
+            charNodes.append(node)
+
+    return charNodes
+
 def starts_with_zero(ipNumVal, ipInputClass):
     if ipNumVal[0] == "0":
         if 'has-error' in ipInputClass:
@@ -65,7 +76,7 @@ def node_255(ipNumVal, ipInputClass):
                 return False
 
 
-def short_node_length(ipNumVal, ipInputClass):
+def short_ip_node_length(ipNumVal, ipInputClass):
     nodes = ip_nodes(ipNumVal)
 
     if len(nodes) < 4:
@@ -75,7 +86,17 @@ def short_node_length(ipNumVal, ipInputClass):
             return False
 
 
-def long_node_length(ipNumVal, ipInputClass):
+def short_host_node_length(ipNumVal, ipInputClass):
+    nodes = host_nodes(ipNumVal)
+
+    if len(nodes) < 3:
+        if 'has-error' in ipInputClass:
+            return True
+        else:
+            return False
+
+
+def long_ip_node_length(ipNumVal, ipInputClass):
     nodes = ip_nodes(ipNumVal)
 
     if len(nodes) > 4:

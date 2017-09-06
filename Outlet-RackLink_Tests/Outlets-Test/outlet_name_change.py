@@ -34,7 +34,7 @@ class OutletNameChange(TestFixtures):
             outletBoxStr = ".//*[@id='outletControl']/div[{0}]".format(index)
             time.sleep(5)
             outletBox.click()
-            driver.waitForElement(outletNameElement, XPATH)
+            driver.waitUntilClickable(outletNameElement, XPATH)
             driver.sendInput(outletNameElement, XPATH, randomInput)
 
             driver.waitAndClick(cancel_btn_xpath(), XPATH)
@@ -42,7 +42,7 @@ class OutletNameChange(TestFixtures):
             time.sleep(3)
             driver.waitAndClick(outletBoxStr, XPATH)
 
-            driver.waitForElement(outletNameElement, XPATH)
+            driver.waitUntilClickable(outletNameElement, XPATH)
             driver.getElement(outletNameElement, XPATH)
 
             inputVal = driver.getElementAttribute(outletNameElement, XPATH, VALUE)
@@ -76,7 +76,7 @@ class OutletNameChange(TestFixtures):
             outlet_count(outletCount)
             time.sleep(5)
             outletBox.click()
-            driver.waitForElement(outletNameElement, XPATH)
+            driver.waitUntilClickable(outletNameElement, XPATH)
             driver.getElement(outletNameElement, XPATH).clear()
 
             driver.waitAndClick(outlet_save_btn(), XPATH)
@@ -121,7 +121,7 @@ class OutletNameChange(TestFixtures):
             outlet_count(outletCount)
             time.sleep(5)
             outletBox.click()
-            driver.waitForElement(outletNameElement, XPATH)
+            driver.waitUntilClickable(outletNameElement, XPATH)
             driver.sendInput(outletNameElement, XPATH, randomChars)
 
             driver.waitAndClick(outlet_save_btn(), XPATH)

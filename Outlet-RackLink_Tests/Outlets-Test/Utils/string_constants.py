@@ -6,6 +6,7 @@ All functions return a string that will be used to find one or more element(s)
 
 ID = 'id'
 XPATH = 'xpath'
+CSS = 'css'
 ClASS = 'class'
 VALUE = 'value'
 
@@ -38,4 +39,9 @@ def cancel_btn_xpath():
 def close_btn_msg():
     """ return the success message close button xpath """
     elem = "//*[@id='closeBtn6']/span"
+    return elem
+
+
+def notify_msg():
+    elem = "//*[@id='notify']"
     return elem

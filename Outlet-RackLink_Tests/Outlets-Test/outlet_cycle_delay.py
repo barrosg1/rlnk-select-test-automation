@@ -43,7 +43,7 @@ class OutletCycleDelay(TestFixtures):
             else:
                 outlet_count(outletCount)
                 outletBox.click()
-                driver.waitForElement(cycleInput, XPATH)
+                driver.waitUntilClickable(cycleInput, XPATH)
                 driver.sendInput(cycleInput, XPATH, cycleNum)
 
                 driver.elementClick(startCycleBtn, XPATH)
@@ -101,7 +101,7 @@ class OutletCycleDelay(TestFixtures):
 
             outlet_count(outletCount)
             outletBox.click()
-            driver.waitForElement(cycleInput, XPATH)
+            driver.waitUntilClickable(cycleInput, XPATH)
             driver.sendInput(cycleInput, XPATH, cycleNum)
 
             # Verify that the cycle input is between 1 - 999
@@ -124,7 +124,7 @@ class OutletCycleDelay(TestFixtures):
             driver.elementClick("btnOk", ID)
 
             # Verify success message appears
-            driver.waitForElement("successMsg", ID)
+            driver.waitUntilClickable("successMsg", ID)
             successMsg = driver.isElementPresent("successMsg", ID)
             if successMsg:
                 assert successMsg == True

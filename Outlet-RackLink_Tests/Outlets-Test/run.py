@@ -26,6 +26,8 @@ from outlet_retries_test import OutletRetries
 from outlet_frequency_test import OutletFrequency
 from outlet_recovery_action import OutletRecoveryAction
 from outlet_date_time import OutletDateTime
+from outlet_device_settings import OutletDeviceSettings
+from outlet_email_settings import OutletEmailSettings
 
 if __name__ == "__main__":
 
@@ -41,7 +43,9 @@ if __name__ == "__main__":
         # OutletFrequency
         # OutletPowerState
         # OutletRecoveryAction
-        OutletDateTime
+        # OutletDateTime,
+        # OutletDeviceSettings
+        OutletEmailSettings
     ]
 
     # Load test cases
