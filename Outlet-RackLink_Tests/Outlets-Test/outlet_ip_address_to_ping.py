@@ -29,7 +29,6 @@ class OutletIpAddressPing(TestFixtures):
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
         enabledBtn = '//div[8]/div[2]/form[1]/button[2]'
         ipAddressInputElem = '//div[8]/div[2]/form[2]/p[1]/input'
-        notifyMsg = ".//*[@id='notify']"
         ipAddresses = ['0.8.8.8', '8.8.8.0', '255.8.8.8', '20.255.90', '8.8.8', '8.8.8.8.8']
 
         index = 1
@@ -38,30 +37,30 @@ class OutletIpAddressPing(TestFixtures):
             time.sleep(5)
             outletBox.click()
 
-            enabledBtnClass = driver.getElement(enabledBtn, XPATH).get_attribute(ClASS)
+            enabledBtnClass = driver.get_element(enabledBtn, XPATH).get_attribute(ClASS)
 
             if 'state1' not in enabledBtnClass or 'state2' in enabledBtnClass:
-                driver.waitAndClick(enabledBtn, XPATH)
+                driver.wait_and_click(enabledBtn, XPATH)
 
-            driver.waitUntilClickable(enabledBtn, XPATH)
-            driver.getElement(enabledBtn, XPATH)
+            driver.wait_until_clickable(enabledBtn, XPATH)
+            driver.get_element(enabledBtn, XPATH)
 
             if 'state1' in enabledBtnClass:
                 for ip in ipAddresses:
-                    driver.waitUntilClickable(ipAddressInputElem, XPATH)
-                    driver.sendInput(ipAddressInputElem, XPATH, ip)
+                    driver.wait_until_clickable(ipAddressInputElem, XPATH)
+                    driver.send_input(ipAddressInputElem, XPATH, ip)
 
-                    driver.waitAndClick(outlet_save_btn(), XPATH)
+                    driver.wait_and_click(outlet_save_btn(), XPATH)
 
-                    ipNumVal = driver.getElementAttribute(ipAddressInputElem, XPATH, VALUE)
-                    notifyMsgClass = driver.getElementAttribute(notifyMsg, XPATH, ClASS)
+                    ipNumVal = driver.get_element_attribute(ipAddressInputElem, XPATH, VALUE)
+                    notifyMsgClass = driver.get_element_attribute(notify_msg(), XPATH, ClASS)
                     nodes = ip_nodes(ipNumVal)
 
                     if 'hidden' not in notifyMsgClass:
                         expectedOpGood = True
 
-                        driver.elementClick("btnOk", ID)
-                        ipInputClass = driver.getElementAttribute(ipAddressInputElem, XPATH, ClASS)
+                        driver.element_click("btnOk", ID)
+                        ipInputClass = driver.get_element_attribute(ipAddressInputElem, XPATH, ClASS)
 
                         if ip.startswith("0"):
                             assert starts_with_zero(ipNumVal, ipInputClass) == expectedOpGood
@@ -76,7 +75,7 @@ class OutletIpAddressPing(TestFixtures):
 
                         time.sleep(1)
                     print "Testing: " + ip + " | has-error class appeared | " + "  PASSED"
-                driver.sendInput(ipAddressInputElem, XPATH, "8.8.8.8")
-                driver.waitAndClick(outlet_save_btn(), XPATH)
+                driver.send_input(ipAddressInputElem, XPATH, "8.8.8.8")
+                driver.wait_and_click(outlet_save_btn(), XPATH)
 
             index += 1

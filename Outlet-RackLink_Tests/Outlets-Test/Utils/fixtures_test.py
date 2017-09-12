@@ -32,21 +32,48 @@ class TestFixtures(unittest.TestCase):
         print "\n--------------------------------------------\n"
 
     def is_hidden_string(self, element):
+        """
+
+        :param element: the current element (XPATH)
+        :return: returns true if 'hidden' is in the element's class
+        """
         driver = SeleniumDriver(self.driver)
 
-        driver.getElement(element, XPATH)
-        element_class = driver.getElementAttribute(element, XPATH, ClASS)
+        driver.get_element(element, XPATH)
+        element_class = driver.get_element_attribute(element, XPATH, ClASS)
 
         if 'hidden' in element_class:
             return True
         else:
             return False
 
-    def has_error(self, inputBox):
+    def is_off(self, element):
+        """
+
+        :param element: the current element (XPATH)
+        :return: returns true if 'state-off' or 'state2' is in the element's class
+        """
         driver = SeleniumDriver(self.driver)
 
-        driver.getElement(inputBox, XPATH)
-        inputBoxClass = driver.getElementAttribute(inputBox, XPATH, ClASS)
+        driver.get_element(element, XPATH)
+        element_class = driver.get_element_attribute(element, XPATH, ClASS)
+
+        if 'state-off' in element_class or 'state2' in element_class:
+            return True
+        else:
+            return False
+
+
+    def has_error(self, inputBox):
+        """
+
+        :param inputBox: the section where users send input strings
+        :return: returns true if 'has-error' is in the inputBox class
+        """
+        driver = SeleniumDriver(self.driver)
+
+        driver.get_element(inputBox, XPATH)
+        inputBoxClass = driver.get_element_attribute(inputBox, XPATH, ClASS)
 
         if 'has-error' in inputBoxClass:
             return True

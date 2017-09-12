@@ -1,5 +1,4 @@
 # coding=utf-8
-import sys
 import time
 
 from Utils.fixtures_test import TestFixtures
@@ -10,18 +9,14 @@ from Utils.test_operation import *
 
 
 class OutletEditCancel(TestFixtures):
-    def test_outlet_edit_cancel(self):
-            self.edit_cancel_btn()
 
-    def edit_cancel_btn(self):
+    def test_edit_cancel_btn(self):
         """
         Verification of Outlet Edit mode and Cancel Button Functionality
         verify that the outlet has the “guitarSolo” class
         verify that the outlet no longer has the “guitarSolo” class
 
         """
-        print "\nTest case function: " + "(" + sys._getframe().f_code.co_name + ")"
-
         driver = SeleniumDriver(self.driver)
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
         outletEditMode = "//div[8]"
@@ -34,16 +29,16 @@ class OutletEditCancel(TestFixtures):
             time.sleep(5)
             outletBox.click()
 
-            outletElemClass = driver.getElementAttribute(outletEditMode, XPATH, ClASS)
+            outletElemClass = driver.get_element_attribute(outletEditMode, XPATH, ClASS)
 
             if 'guitarSolo' in outletElemClass:
                 print "Outlet expands into edit mode | PASSED"
                 assert expectedOpGood == True
 
-            driver.waitAndClick(cancel_btn_xpath(), XPATH)
+            driver.wait_and_click(outlet_cancel_btn(), XPATH)
 
             time.sleep(1)
-            assert driver.isElementPresent(outletEditMode, XPATH) == False
+            assert driver.is_element_present(outletEditMode, XPATH) == False
             print "Outlet shrunk out of edit mode | PASSED"
 
             index += 1

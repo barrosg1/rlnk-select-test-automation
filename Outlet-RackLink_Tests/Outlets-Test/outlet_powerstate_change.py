@@ -26,21 +26,20 @@ class OutletPowerState(TestFixtures):
         driver = SeleniumDriver(self.driver)
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
         powerStateBtn = '//div[8]/div[2]/form[1]/button[1]'
-        notify = ".//*[@id='notify']/div"
 
         outletCount = 1
         for outletBox in outletBoxList:
             outlet_count(outletCount)
             time.sleep(5)
             outletBox.click()
-            driver.waitAndClick(powerStateBtn, XPATH)
+            driver.wait_and_click(powerStateBtn, XPATH)
 
-            notifyMsg = driver.isElementPresent(notify, XPATH)
+            notifyMsg = driver.is_element_present(notify_msg(), XPATH)
 
             assert notifyMsg == True
             print '"Are you sure.." message appeared |  PASSED'
 
-            driver.waitAndClick("btnOk", ID)
+            driver.wait_and_click("btnOk", ID)
 
             outletCount += 1
 
@@ -63,16 +62,16 @@ class OutletPowerState(TestFixtures):
             outlet_count(outletCount)
             time.sleep(5)
             outletBox.click()
-            powerStateBtnClass = driver.getElementAttribute(powerStateBtn, XPATH, ClASS)
+            powerStateBtnClass = driver.get_element_attribute(powerStateBtn, XPATH, ClASS)
 
             if 'state1' in powerStateBtnClass:
                 powerState = True
             else:
                 powerState = False
 
-            driver.waitAndClick(powerStateBtn, XPATH)
-            driver.waitAndClick("btnCancel", ID)
-            driver.waitAndClick(cancel_btn_xpath(), XPATH)
+            driver.wait_and_click(powerStateBtn, XPATH)
+            driver.wait_and_click("btnCancel", ID)
+            driver.wait_and_click(outlet_cancel_btn(), XPATH)
 
             if powerState:
                 print "Power state has not changed |  PASSED"
@@ -108,28 +107,28 @@ class OutletPowerState(TestFixtures):
             time.sleep(5)
             outletBox.click()
 
-            powerStateBtnClass = driver.getElementAttribute(powerStateBtn, XPATH, ClASS)
+            powerStateBtnClass = driver.get_element_attribute(powerStateBtn, XPATH, ClASS)
 
             if 'state1' in powerStateBtnClass:
                 powerState = True
             else:
                 powerState = False
 
-            driver.waitAndClick(powerStateBtn, XPATH)
-            driver.waitAndClick("btnOk", ID)
+            driver.wait_and_click(powerStateBtn, XPATH)
+            driver.wait_and_click("btnOk", ID)
 
-            successMsg = driver.isElementPresent("successMsg", ID)
+            successMsg = driver.is_element_present("successMsg", ID)
             assert successMsg == True
             print "Success message appeared |  PASSED"
 
             time.sleep(1)
 
-            assert driver.isElementPresent(outletEditMode, XPATH) == False
+            assert driver.is_element_present(outletEditMode, XPATH) == False
             print "Outlet shrunk out of edit mode | PASSED"
 
-            driver.elementClick(outletCtrlStr, XPATH)
+            driver.element_click(outletCtrlStr, XPATH)
 
-            powerStateBtnClass = driver.getElementAttribute(powerStateBtn, XPATH, ClASS)
+            powerStateBtnClass = driver.get_element_attribute(powerStateBtn, XPATH, ClASS)
 
             if powerState:
                 if 'state1' not in powerStateBtnClass:
@@ -139,7 +138,7 @@ class OutletPowerState(TestFixtures):
                 print "Power changed to green |  PASSED"
                 assert powerState == False
 
-            driver.waitAndClick(cancel_btn_xpath(), XPATH)
+            driver.wait_and_click(outlet_cancel_btn(), XPATH)
 
             index += 1
             outletCount += 1

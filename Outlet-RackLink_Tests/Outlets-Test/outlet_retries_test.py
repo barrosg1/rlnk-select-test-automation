@@ -26,7 +26,6 @@ class OutletRetries(TestFixtures):
         driver = SeleniumDriver(self.driver)
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
         retriesInputElem = "//div[8]/div[2]/form[2]/p[3]/input"
-        notify = ".//*[@id='notify']"
         retries = 0
 
         outletCount = 1
@@ -35,18 +34,18 @@ class OutletRetries(TestFixtures):
             time.sleep(5)
             outletBox.click()
 
-            driver.sendInput(retriesInputElem, XPATH, retries)
-            driver.waitAndClick(outlet_save_btn(), XPATH)
+            driver.send_input(retriesInputElem, XPATH, retries)
+            driver.wait_and_click(outlet_save_btn(), XPATH)
 
-            notifyVisible = driver.isElementPresent(notify, XPATH)
+            notifyVisible = driver.is_element_present(notify_msg(), XPATH)
 
             assert notifyVisible == True
             print "Notification message appeared |  PASSED"
 
-            driver.elementClick("btnOk", ID)
-            driver.elementClick(cancel_btn_xpath(), XPATH)
+            driver.element_click("btnOk", ID)
+            driver.element_click(outlet_cancel_btn(), XPATH)
 
-            retriesInputClass = driver.getElementAttribute(
+            retriesInputClass = driver.get_element_attribute(
                 retriesInputElem, XPATH, ClASS)
 
             if 'has-error' in retriesInputClass:
@@ -80,15 +79,15 @@ class OutletRetries(TestFixtures):
             time.sleep(5)
             outletBox.click()
 
-            driver.sendInput(retriesInputElem, XPATH, retries)
-            driver.waitAndClick(outlet_save_btn(), XPATH)
+            driver.send_input(retriesInputElem, XPATH, retries)
+            driver.wait_and_click(outlet_save_btn(), XPATH)
 
-            successMsg = driver.isElementPresent("successMsg", ID)
+            successMsg = driver.is_element_present("successMsg", ID)
             assert successMsg == True
             print "Success message appeared |  PASSED"
 
             time.sleep(1)
-            assert driver.isElementPresent("//div[8]", XPATH) == False
+            assert driver.is_element_present("//div[8]", XPATH) == False
             print "Outlet has shrunk out of edit mode | PASSED"
 
             outletCount += 1
@@ -107,7 +106,6 @@ class OutletRetries(TestFixtures):
         driver = SeleniumDriver(self.driver)
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
         retriesInputElem = "//div[8]/div[2]/form[2]/p[3]/input"
-        notify = ".//*[@id='notify']"
         retries = 250
 
         outletCount = 1
@@ -116,18 +114,18 @@ class OutletRetries(TestFixtures):
             time.sleep(5)
             outletBox.click()
 
-            driver.sendInput(retriesInputElem, XPATH, retries)
-            driver.waitAndClick(outlet_save_btn(), XPATH)
+            driver.send_input(retriesInputElem, XPATH, retries)
+            driver.wait_and_click(outlet_save_btn(), XPATH)
 
-            notifyVisible = driver.isElementPresent(notify, XPATH)
+            notifyVisible = driver.is_element_present(notify_msg(), XPATH)
 
             assert notifyVisible == True
             print "Notification message appeared |  PASSED"
 
-            driver.elementClick("btnOk", ID)
-            driver.elementClick(cancel_btn_xpath(), XPATH)
+            driver.element_click("btnOk", ID)
+            driver.element_click(outlet_cancel_btn(), XPATH)
 
-            retriesInputClass = driver.getElementAttribute(
+            retriesInputClass = driver.get_element_attribute(
                 retriesInputElem, XPATH, ClASS)
 
             if 'has-error' in retriesInputClass:

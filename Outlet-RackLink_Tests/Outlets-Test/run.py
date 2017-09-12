@@ -18,16 +18,17 @@ from Utils.test_operation import *
 from outlet_name_change import OutletNameChange
 from outlet_powerstate_change import OutletPowerState
 from outlet_in_sequence_checkbox import OutletInSequence
-from outlet_auto_ping import OutletAutoPing
+from outlet_on_off import OutletAutoPing
 from outlet_cycle_delay import OutletCycleDelay
 from outlet_edit_cancel_func import OutletEditCancel
 from outlet_ip_address_to_ping import OutletIpAddressPing
 from outlet_retries_test import OutletRetries
 from outlet_frequency_test import OutletFrequency
 from outlet_recovery_action import OutletRecoveryAction
-from outlet_date_time import OutletDateTime
-from outlet_device_settings import OutletDeviceSettings
-from outlet_email_settings import OutletEmailSettings
+from date_time_settings import DateTimeSettings
+from device_settings import DeviceSettings
+from email_settings import EmailSettings
+from network_settings import NetworkSettings
 
 if __name__ == "__main__":
 
@@ -40,12 +41,13 @@ if __name__ == "__main__":
         # OutletEditCancel,
         # OutletIpAddressPing
         # OutletRetries,
-        # OutletFrequency
+        OutletFrequency
         # OutletPowerState
         # OutletRecoveryAction
-        # OutletDateTime,
-        # OutletDeviceSettings
-        OutletEmailSettings
+        # DateTimeSettings,
+        # DeviceSettings
+        # EmailSettings,
+        # NetworkSettings
     ]
 
     # Load test cases

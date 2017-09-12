@@ -318,8 +318,8 @@ Traceback (most recent call last):
   File "C:\workspace\Outlet-RackLink_Tests\Outlets-Test\outlet_powerstate_change.py", line 21, in test_outlet_cycle_delay
     self.power_state_btn_notify_msg()
   File "C:\workspace\Outlet-RackLink_Tests\Outlets-Test\outlet_powerstate_change.py", line 46, in power_state_btn_notify_msg
-    driver.waitAndClick(cancel_btn_xpath(), XPATH)
-  File "C:\workspace\Outlet-RackLink_Tests\Outlets-Test\Utils\selenium_driver.py", line 156, in waitAndClick
+    driver.wait_and_click(outlet_cancel_btn(), XPATH)
+  File "C:\workspace\Outlet-RackLink_Tests\Outlets-Test\Utils\selenium_driver.py", line 156, in wait_and_click
     element.click()
   File "C:\Python27\lib\site-packages\selenium\webdriver\remote\webelement.py", line 77, in click
     self._execute(Command.CLICK_ELEMENT)

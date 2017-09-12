@@ -23,14 +23,7 @@ class SeleniumDriver:
     def __init__(self, driver):
         self.driver = driver
 
-    def locatorFound(self, locator):
-        # print("\nElement " + '"' + str(locator) + '"' + " was found")
-        pass
-
-    def locatorNotFound(self, locator):
-        print("\nElement " + '"' + str(locator) + '"' + " was not found")
-
-    def getByType(self, locatorType):
+    def get_by_type(self, locatorType):
         """
         Function that retrieves a locator by type
 
@@ -56,17 +49,16 @@ class SeleniumDriver:
             print("\nLocator type " + locatorType + " not correct/supported")
         return False
 
-    def getElement(self, locator, locatorType):
+    def get_element(self, locator, locatorType):
         try:
             locatorType = locatorType.lower()
-            byType = self.getByType(locatorType)
+            byType = self.get_by_type(locatorType)
             element = self.driver.find_element(byType, locator)
         except NoSuchElementException:
-            self.locatorNotFound(locator)
             return False
         return element
 
-    def elementClick(self, locator, locatorType):
+    def element_click(self, locator, locatorType):
         """
         Function to click on an element
 
@@ -75,12 +67,12 @@ class SeleniumDriver:
 
         """
         try:
-            element = self.getElement(locator, locatorType)
+            element = self.get_element(locator, locatorType)
             element.click()
         except NoSuchElementException:
             print("\nCannot click on the element with locator: " + locator + " locatorType: " + locatorType)
 
-    def isElementPresent(self, locator, byType):
+    def is_element_present(self, locator, byType):
         """
         Function that checks if an element is present
 
@@ -91,14 +83,13 @@ class SeleniumDriver:
         try:
             element = self.driver.find_element(byType, locator)
             if element is not None:
-                self.locatorFound(locator)
                 return True
             else:
                 return False
         except NoSuchElementException:
             return False
 
-    def isElementSelected(self, locator, byType):
+    def is_element_selected(self, locator, byType):
         """
         Function to check if an element is selected
 
@@ -110,17 +101,14 @@ class SeleniumDriver:
         try:
             element = self.driver.find_element(byType, locator)
             if element.is_selected():
-                self.locatorFound(locator)
                 return True
             else:
-                self.locatorNotFound(locator)
                 return False
         except NoSuchElementException:
-            self.locatorNotFound(locator)
             return False
 
-    def waitUntilClickable(self, locator, locatorType="id",
-                           timeout=10, pollFrequency=0.5):
+    def wait_until_clickable(self, locator, locatorType="id",
+                             timeout=10, pollFrequency=0.5):
         """
         Function waits for an element to be clickable
 
@@ -134,7 +122,7 @@ class SeleniumDriver:
 
         element = None
         try:
-            byType = self.getByType(locatorType)
+            byType = self.get_by_type(locatorType)
             wait = WebDriverWait(self.driver, 10, poll_frequency=0.5,
                                  ignored_exceptions=[NoSuchElementException,
                                                      ElementNotVisibleException,
@@ -144,8 +132,8 @@ class SeleniumDriver:
             print("\nElement " + str(locator) + " did not appear on the web page")
         return element
 
-    def waitForVisibility(self, locator, locatorType="id",
-                           timeout=10, pollFrequency=0.5):
+    def wait_for_visibility(self, locator, locatorType="id",
+                            timeout=10, pollFrequency=0.5):
         """
         Function waits for element to be both present in the DOM and visible on the UI
 
@@ -159,7 +147,7 @@ class SeleniumDriver:
 
         element = None
         try:
-            byType = self.getByType(locatorType)
+            byType = self.get_by_type(locatorType)
             wait = WebDriverWait(self.driver, 10, poll_frequency=0.5,
                                  ignored_exceptions=[NoSuchElementException,
                                                      ElementNotVisibleException,
@@ -169,8 +157,8 @@ class SeleniumDriver:
             print("\nElement " + str(locator) + " did not appear on the web page")
         return element
 
-    def waitAndClick(self, locator, locatorType,
-                     timeout=10, pollFrequency=0.5):
+    def wait_and_click(self, locator, locatorType,
+                       timeout=10, pollFrequency=0.5):
 
         """
         Function waits for an element to be present and then click on the element
@@ -183,14 +171,14 @@ class SeleniumDriver:
         """
 
         try:
-            element = self.getElement(locator, locatorType)
-            self.waitUntilClickable(locator, locatorType)
+            element = self.get_element(locator, locatorType)
+            self.wait_until_clickable(locator, locatorType)
             element.click()
         except NoSuchElementException:
             print("\nCannot click on the element with locator: " +
                   locator + " locatorType: " + locatorType)
 
-    def sendInput(self, locator, locatorType, inputString):
+    def send_input(self, locator, locatorType, inputString):
         """
         Function to send keys to an input element
 
@@ -203,15 +191,15 @@ class SeleniumDriver:
 
         sendInputIn = None
         try:
-            self.waitUntilClickable(locator, locatorType)
-            sendInputIn = self.getElement(locator, locatorType)
+            self.wait_until_clickable(locator, locatorType)
+            sendInputIn = self.get_element(locator, locatorType)
             sendInputIn.clear()
             sendInputIn.send_keys(inputString)
         except NoSuchElementException:
-            self.locatorNotFound(locator)
+            return False
         return sendInputIn
 
-    def getElementAttribute(self, locator, locatorType, attribute):
+    def get_element_attribute(self, locator, locatorType, attribute):
         """
         Function to get a specific element attribute
 
@@ -222,12 +210,12 @@ class SeleniumDriver:
         """
         elementAttr = None
         try:
-            elementAttr = self.getElement(locator, locatorType).get_attribute(attribute)
+            elementAttr = self.get_element(locator, locatorType).get_attribute(attribute)
         except NoSuchElementException:
-            self.locatorNotFound(locator)
+            return False
         return elementAttr
 
-    def forceClick(self, locator, locatorType):
+    def force_click(self, locator, locatorType):
         """
         If an element can't be click with the standar click() function
         then try to force click the element. (mostly used with list <li> in this project)
@@ -237,7 +225,7 @@ class SeleniumDriver:
 
         """
         try:
-            elem = self.getElement(locator, locatorType)
+            elem = self.get_element(locator, locatorType)
             actions = ActionChains(self.driver)
             actions.move_to_element(elem)
             actions.click(elem)

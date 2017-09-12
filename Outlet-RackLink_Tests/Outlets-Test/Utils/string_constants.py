@@ -30,11 +30,22 @@ def outlet_save_btn():
     return elem
 
 
-def cancel_btn_xpath():
+def outlet_cancel_btn():
     """ return the cancel button xpath """
     elem = "//div[8]/div[2]/div/button[1]"
     return elem
 
+def save_btn():
+    elem = "//*[@id='spbg']/button[2]"
+    return elem
+
+def cancel_btn():
+    elem = "//*[@id='spbg']/button[1]"
+    return elem
+
+def success_msg():
+    elem = "//*[@id='successMsg']"
+    return elem
 
 def close_btn_msg():
     """ return the success message close button xpath """
@@ -45,3 +56,8 @@ def close_btn_msg():
 def notify_msg():
     elem = "//*[@id='notify']"
     return elem
+
+def menu():
+    elem = ".//*[@id='wrapper']/header/i"
+    return elem
+

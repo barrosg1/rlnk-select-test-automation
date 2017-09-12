@@ -1,11 +1,11 @@
-1504710906186	geckodriver	INFO	Listening on 127.0.0.1:59558
-1504710908231	geckodriver::marionette	INFO	Starting browser C:\Program Files (x86)\Mozilla Firefox\firefox.exe with args ["-marionette"]
-1504710913480	Marionette	INFO	Listening on port 59565
-1504710914114	Marionette	WARN	TLS certificate errors will be ignored for this session
-1504711004426	Marionette	INFO	New connections will no longer be accepted
-[Child 4832] ###!!! ABORT: Aborting on channel error.: file c:/builds/moz2_slave/m-esr52-w32-000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2152
-/marionette/content/element.js:255:15
-implicitlyWaitFor/</elementSearch@chrome://marionette/content/element.js:600:15
+1505159468298	geckodriver	INFO	Listening on 127.0.0.1:57106
+1505159470340	geckodriver::marionette	INFO	Starting browser C:\Program Files (x86)\Mozilla Firefox\firefox.exe with args ["-marionette"]
+1505159474317	Marionette	INFO	Listening on port 57114
+1505159474481	Marionette	WARN	TLS certificate errors will be ignored for this session
+1505159490246	Marionette	INFO	New connections will no longer be accepted
+[Child 4120] ###!!! ABORT: Aborting on channel error.: file c:/builds/moz2_slave/m-esr52-w32-000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2152
+r52-w32-000000000000000000/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 345
+nt/element.js:600:15
 
 *************************
 *************************

@@ -8,7 +8,7 @@ from Utils.string_constants import *
 from Utils.test_operation import *
 
 
-class OutletEmailSettings(TestFixtures):
+class EmailSettings(TestFixtures):
 
     # -------------------- Tests --------------------------------
 
@@ -16,9 +16,6 @@ class OutletEmailSettings(TestFixtures):
     def test_ip_host_name(self):
         driver = SeleniumDriver(self.driver)
         emailIpHost = "//*[@id='emailSettings']/div[1]/p[1]/input"
-        saveBtn = "//*[@id='spbg']/button[2]"
-        cancelBtn = "//*[@id='spbg']/button[1]"
-        notifyMsg = "//*[@id='notify']"
         inputBox = "//*[@id='emailSettings']/div[1]/p[1]/input"
         invalidIpHostNames = ['0.8.8.8', '8.8.8.0', '255.8.8.8', '20.255.90',
                               '8.8.8', '8.8.8.8.8', 'exchange.map']
@@ -29,19 +26,19 @@ class OutletEmailSettings(TestFixtures):
         time.sleep(3)
 
         for name in invalidIpHostNames:
-            driver.waitUntilClickable(emailIpHost, XPATH)
-            driver.sendInput(emailIpHost, XPATH, name)
-            driver.waitAndClick(saveBtn, XPATH)
+            driver.wait_until_clickable(emailIpHost, XPATH)
+            driver.send_input(emailIpHost, XPATH, name)
+            driver.wait_and_click(save_btn(), XPATH)
 
-            ipHostVal = driver.getElementAttribute(emailIpHost, XPATH, VALUE)
+            ipHostVal = driver.get_element_attribute(emailIpHost, XPATH, VALUE)
             ipNodes = ip_nodes(ipHostVal)
             hostNodes = host_nodes(ipHostVal)
 
             assert self.has_error(inputBox) == True
-            assert self.is_hidden_string(notifyMsg) == False
+            assert self.is_hidden_string(notify_msg()) == False
 
-            driver.elementClick("btnOk", ID)
-            ipInputClass = driver.getElementAttribute(emailIpHost, XPATH, ClASS)
+            driver.element_click("btnOk", ID)
+            ipInputClass = driver.get_element_attribute(emailIpHost, XPATH, ClASS)
 
             expectedOpGood = True
 
@@ -58,18 +55,15 @@ class OutletEmailSettings(TestFixtures):
             else:
                 assert long_ip_node_length(ipHostVal, ipInputClass) == expectedOpGood
 
-        driver.waitAndClick(cancelBtn, XPATH)
+        driver.wait_and_click(cancel_btn(), XPATH)
 
         time.sleep(3)
-        self.restore_device_settings()
+        self.restore_email_settings()
 
     @unittest.skip("Skipped for now")
     def test_sender_email(self):
         driver = SeleniumDriver(self.driver)
         send_email_input = "//*[@id='emailSettings']/div[1]/p[2]/input"
-        saveBtn = "//*[@id='spbg']/button[2]"
-        cancelBtn = "//*[@id='spbg']/button[1]"
-        notifyMsg = "//*[@id='notify']"
         invalid_emails = ['test@@test.com', 'test@test..com',
                           '@.com', 'test', 'test.com', 'test@t.c', '']
 
@@ -79,26 +73,23 @@ class OutletEmailSettings(TestFixtures):
         time.sleep(3)
 
         for email in invalid_emails:
-            driver.waitUntilClickable(send_email_input, XPATH)
-            driver.sendInput(send_email_input, XPATH, email)
-            driver.waitAndClick(saveBtn, XPATH)
+            driver.wait_until_clickable(send_email_input, XPATH)
+            driver.send_input(send_email_input, XPATH, email)
+            driver.wait_and_click(save_btn(), XPATH)
 
             assert self.has_error(send_email_input) == True
-            assert self.is_hidden_string(notifyMsg) == False
+            assert self.is_hidden_string(notify_msg()) == False
 
-            driver.elementClick("btnOk", ID)
-        driver.waitAndClick(cancelBtn, XPATH)
+            driver.element_click("btnOk", ID)
+        driver.wait_and_click(cancel_btn(), XPATH)
 
         time.sleep(3)
-        self.restore_device_settings()
+        self.restore_email_settings()
 
     @unittest.skip("Skipped for now")
     def test_port_number(self):
         driver = SeleniumDriver(self.driver)
         port_input = "//*[@id='emailSettings']/div[1]/p[3]/input"
-        saveBtn = "//*[@id='spbg']/button[2]"
-        cancelBtn = "//*[@id='spbg']/button[1]"
-        notifyMsg = "//*[@id='notify']"
         invalid_ports = ['test', 'test123', '---']
 
         self.open_email_settings()
@@ -107,18 +98,18 @@ class OutletEmailSettings(TestFixtures):
         time.sleep(3)
 
         for port in invalid_ports:
-            driver.waitUntilClickable(port_input, XPATH)
-            driver.sendInput(port_input, XPATH, port)
-            driver.waitAndClick(saveBtn, XPATH)
+            driver.wait_until_clickable(port_input, XPATH)
+            driver.send_input(port_input, XPATH, port)
+            driver.wait_and_click(save_btn(), XPATH)
 
             assert self.has_error(port_input) == True
-            assert self.is_hidden_string(notifyMsg) == False
+            assert self.is_hidden_string(notify_msg()) == False
 
-            driver.elementClick("btnOk", ID)
-        driver.waitAndClick(cancelBtn, XPATH)
+            driver.element_click("btnOk", ID)
+        driver.wait_and_click(cancel_btn(), XPATH)
 
         time.sleep(3)
-        self.restore_device_settings()
+        self.restore_email_settings()
 
     @unittest.skip("Skipped for now")
     def test_authentication(self):
@@ -127,47 +118,44 @@ class OutletEmailSettings(TestFixtures):
         password = "//*[@id='emailSettings']/div[2]/p[3]/input[1]"
         confirmPass = "//*[@id='emailSettings']/div[2]/p[4]/input[1]"
         showPass = "//*[@id='emailSettings']/div[2]/p[5]/input"  # show password
-        saveBtn = "//*[@id='spbg']/button[2]"
-        cancelBtn = "//*[@id='spbg']/button[1]"
-        notifyMsg = "//*[@id='notify']"
 
         self.open_email_settings()
         self.default_ip_email_rep()
         time.sleep(3)
 
-        driver.waitAndClick("authReq", ID)
-        driver.waitAndClick(saveBtn, XPATH)
+        driver.wait_and_click("authReq", ID)
+        driver.wait_and_click(save_btn(), XPATH)
 
         assert self.has_error(username) == True
         assert self.has_error(password) == True
         assert self.has_error(confirmPass) == True
-        assert self.is_hidden_string(notifyMsg) == False
+        assert self.is_hidden_string(notify_msg()) == False
 
-        driver.elementClick("btnOk", ID)
+        driver.element_click("btnOk", ID)
 
         time.sleep(3)
-        driver.waitForVisibility(password, XPATH)
-        driver.getElement(password, XPATH)
-        driver.sendInput(password, XPATH, "Test123")
+        driver.wait_for_visibility(password, XPATH)
+        driver.get_element(password, XPATH)
+        driver.send_input(password, XPATH, "Test123")
 
-        driver.getElement(confirmPass, XPATH)
-        driver.sendInput(confirmPass, XPATH, "Test123")
+        driver.get_element(confirmPass, XPATH)
+        driver.send_input(confirmPass, XPATH, "Test123")
 
-        driver.elementClick(showPass, XPATH)
-        if driver.isElementSelected(showPass, XPATH):
+        driver.element_click(showPass, XPATH)
+        if driver.is_element_selected(showPass, XPATH):
             # if 'hidden' is in the password class
             assert self.is_hidden_string(password) == True
 
             time.sleep(3)
-            driver.elementClick(showPass, XPATH)
+            driver.element_click(showPass, XPATH)
 
             # if 'hidden' is not in the password class
             assert self.is_hidden_string(password) == False
 
-        driver.waitAndClick(cancelBtn, XPATH)
+        driver.wait_and_click(cancel_btn(), XPATH)
 
         time.sleep(3)
-        self.restore_device_settings()
+        self.restore_email_settings()
 
     # @unittest.skip("Skipped for now")
     def test_recipients(self):
@@ -178,14 +166,12 @@ class OutletEmailSettings(TestFixtures):
         send_email_btn = "//*[@id='emailSettings']/p/button"
         emailIpHost = "//*[@id='emailSettings']/div[1]/p[1]/input"
         send_email_input = "//*[@id='emailSettings']/div[1]/p[2]/input"
-        successMsg = "//*[@id='successMsg']"
-        cancelBtn = "//*[@id='spbg']/button[1]"
 
         self.open_email_settings()
         time.sleep(3)
 
-        driver.sendInput(emailIpHost, XPATH, "8.8.8.8")
-        driver.sendInput(send_email_input, XPATH, "test123t@middleatlantic.com")
+        driver.send_input(emailIpHost, XPATH, "8.8.8.8")
+        driver.send_input(send_email_input, XPATH, "test123t@middleatlantic.com")
 
         time.sleep(3)
 
@@ -195,23 +181,23 @@ class OutletEmailSettings(TestFixtures):
             repName = "//*[@id='emailSettings']/div[3]/div[{0}]/p[1]/input".format(i)
             repEmail = "//*[@id='emailSettings']/div[3]/div[{0}]/p[2]/input".format(i)
             time.sleep(2)
-            driver.getElement(addRepBtn, XPATH)
-            driver.waitAndClick(addRepBtn, XPATH)
+            driver.get_element(addRepBtn, XPATH)
+            driver.wait_and_click(addRepBtn, XPATH)
 
             time.sleep(2)
-            driver.sendInput(repName, XPATH, "Test Test")
-            driver.sendInput(repEmail, XPATH, "test.test@middleatlantic.com")
+            driver.send_input(repName, XPATH, "Test Test")
+            driver.send_input(repEmail, XPATH, "test.test@middleatlantic.com")
             rep_div_count += 1
 
             i += 1
 
         assert rep_div_count == 5
 
-        driver.waitAndClick(send_email_btn, XPATH)
+        driver.wait_and_click(send_email_btn, XPATH)
         time.sleep(3)
 
-        assert self.is_hidden_string(successMsg) == False
-        driver.waitAndClick(close_btn_msg(), XPATH)
+        assert self.is_hidden_string(success_msg()) == False
+        driver.wait_and_click(close_btn_msg(), XPATH)
 
         # get removeRepBoxList, length should be 5
         removeRepBoxList = self.driver.find_elements_by_xpath(removeRepBox)
@@ -219,48 +205,46 @@ class OutletEmailSettings(TestFixtures):
         for x in removeRepBoxList:
             removeRepBox = "//*[@id='emailSettings']/div[3]/div[{0}]/p[1]/b/span".format(i)
             time.sleep(3)
-            driver.waitAndClick(removeRepBox, XPATH)
+            driver.wait_and_click(removeRepBox, XPATH)
 
         # get removeRepBoxList again, length should be 0
         removeRepBoxList = self.driver.find_elements_by_xpath(removeRepBox)
 
         assert len(removeRepBoxList) == 0
 
-        driver.waitAndClick(cancelBtn, XPATH)
+        driver.wait_and_click(cancel_btn(), XPATH)
 
         time.sleep(3)
-        self.restore_device_settings()
+        self.restore_email_settings()
 
     # -------------------- Functions --------------------------------
 
-    def restore_device_settings(self):
+    def restore_email_settings(self):
         driver = SeleniumDriver(self.driver)
-        menuIcon = ".//*[@id='wrapper']/header/i"
         factoryDefaults = "//nav/ul/li[5]"
         restoreEmailSett = "//*[@id='factoryDefaults']/p[7]/input"
-        saveBtn = ".//*[@id='spbg']/button[2]"
 
-        driver.waitAndClick(menuIcon, XPATH)
+        driver.wait_and_click(menu(), XPATH)
         time.sleep(3)
-        driver.forceClick(factoryDefaults, XPATH)
+        driver.force_click(factoryDefaults, XPATH)
 
         time.sleep(3)
-        driver.elementClick(restoreEmailSett, XPATH)
-        driver.waitAndClick(saveBtn, XPATH)
+        driver.element_click(restoreEmailSett, XPATH)
+        driver.wait_and_click(save_btn(), XPATH)
 
         time.sleep(11)  # wait for 10 seconds plus another second to click on OK button
-        driver.elementClick("btnOk", ID)
+        driver.element_click("btnOk", ID)
 
     def open_email_settings(self):
         menuIcon = ".//*[@id='wrapper']/header/i"
         emailSettings = "//nav/ul/li[4]"
 
         driver = SeleniumDriver(self.driver)
-        driver.getElement(menuIcon, XPATH)
-        driver.waitAndClick(menuIcon, XPATH)
+        driver.get_element(menuIcon, XPATH)
+        driver.wait_and_click(menuIcon, XPATH)
 
         time.sleep(3)
-        driver.forceClick(emailSettings, XPATH)
+        driver.force_click(emailSettings, XPATH)
 
     def default_ip_email_rep(self):
         driver = SeleniumDriver(self.driver)
@@ -271,14 +255,14 @@ class OutletEmailSettings(TestFixtures):
         repEmail = "//*[@id='emailSettings']/div[3]/div[2]/p[2]/input"
         recpEntry = "//*[@id='emailSettings']/div[3]/div[2]"
 
-        if not driver.isElementPresent(recpEntry, XPATH):
-            driver.waitAndClick(addRepBtn, XPATH)
+        if not driver.is_element_present(recpEntry, XPATH):
+            driver.wait_and_click(addRepBtn, XPATH)
             time.sleep(3)
 
-        driver.sendInput(emailIpHost, XPATH, "12.12.12.12")
-        driver.sendInput(senderEmail, XPATH, "test@test.com")
+        driver.send_input(emailIpHost, XPATH, "12.12.12.12")
+        driver.send_input(senderEmail, XPATH, "test@test.com")
 
-        driver.sendInput(repName, XPATH, "Test Test")
-        driver.sendInput(repEmail, XPATH, "test.test@middleatlantic.com")
+        driver.send_input(repName, XPATH, "Test Test")
+        driver.send_input(repEmail, XPATH, "test.test@middleatlantic.com")
 
 

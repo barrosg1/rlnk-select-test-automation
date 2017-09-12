@@ -34,23 +34,23 @@ class OutletNameChange(TestFixtures):
             outletBoxStr = ".//*[@id='outletControl']/div[{0}]".format(index)
             time.sleep(5)
             outletBox.click()
-            driver.waitUntilClickable(outletNameElement, XPATH)
-            driver.sendInput(outletNameElement, XPATH, randomInput)
+            driver.wait_until_clickable(outletNameElement, XPATH)
+            driver.send_input(outletNameElement, XPATH, randomInput)
 
-            driver.waitAndClick(cancel_btn_xpath(), XPATH)
+            driver.wait_and_click(outlet_cancel_btn(), XPATH)
 
             time.sleep(3)
-            driver.waitAndClick(outletBoxStr, XPATH)
+            driver.wait_and_click(outletBoxStr, XPATH)
 
-            driver.waitUntilClickable(outletNameElement, XPATH)
-            driver.getElement(outletNameElement, XPATH)
+            driver.wait_until_clickable(outletNameElement, XPATH)
+            driver.get_element(outletNameElement, XPATH)
 
-            inputVal = driver.getElementAttribute(outletNameElement, XPATH, VALUE)
+            inputVal = driver.get_element_attribute(outletNameElement, XPATH, VALUE)
 
             assert inputVal != randomInput
             print "Name didn't change after clicking the cancel button |  PASSED"
 
-            driver.waitAndClick(cancel_btn_xpath(), XPATH)
+            driver.wait_and_click(outlet_cancel_btn(), XPATH)
             index += 1
             outletCount += 1
 
@@ -68,7 +68,6 @@ class OutletNameChange(TestFixtures):
         driver = SeleniumDriver(self.driver)
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
         outletNameElement = '//div[8]/div[2]/input'
-        notify = ".//*[@id='notify']"
         expectedOpGood = False
 
         outletCount = 1
@@ -76,23 +75,23 @@ class OutletNameChange(TestFixtures):
             outlet_count(outletCount)
             time.sleep(5)
             outletBox.click()
-            driver.waitUntilClickable(outletNameElement, XPATH)
-            driver.getElement(outletNameElement, XPATH).clear()
+            driver.wait_until_clickable(outletNameElement, XPATH)
+            driver.get_element(outletNameElement, XPATH).clear()
 
-            driver.waitAndClick(outlet_save_btn(), XPATH)
+            driver.wait_and_click(outlet_save_btn(), XPATH)
 
-            notifyVisible = driver.isElementPresent(notify, XPATH)
+            notifyVisible = driver.is_element_present(notify_msg(), XPATH)
             assert notifyVisible == True
             print "Notification message appeared |  PASSED"
 
-            driver.getElement(outletNameElement, XPATH)
+            driver.get_element(outletNameElement, XPATH)
 
-            outletNameElementClass = driver.getElementAttribute(outletNameElement, XPATH, ClASS)
+            outletNameElementClass = driver.get_element_attribute(outletNameElement, XPATH, ClASS)
             if 'has-error' in outletNameElementClass:
                 expectedOpGood = True
-                driver.waitAndClick("btnOk", ID)
+                driver.wait_and_click("btnOk", ID)
 
-            driver.waitAndClick(cancel_btn_xpath(), XPATH)
+            driver.wait_and_click(outlet_cancel_btn(), XPATH)
 
             assert expectedOpGood == True
             print "Input box has a red border |  PASSED"
@@ -121,11 +120,11 @@ class OutletNameChange(TestFixtures):
             outlet_count(outletCount)
             time.sleep(5)
             outletBox.click()
-            driver.waitUntilClickable(outletNameElement, XPATH)
-            driver.sendInput(outletNameElement, XPATH, randomChars)
+            driver.wait_until_clickable(outletNameElement, XPATH)
+            driver.send_input(outletNameElement, XPATH, randomChars)
 
-            driver.waitAndClick(outlet_save_btn(), XPATH)
-            inputValue = driver.getElementAttribute(outletNameElement, XPATH, VALUE)
+            driver.wait_and_click(outlet_save_btn(), XPATH)
+            inputValue = driver.get_element_attribute(outletNameElement, XPATH, VALUE)
 
             #  assert input
             assert 50 >= len(inputValue) >= 1
