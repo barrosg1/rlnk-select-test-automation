@@ -1,5 +1,5 @@
 # coding=utf-8
-import sys
+import unittest
 import time
 
 from Utils.fixtures_test import TestFixtures
@@ -10,61 +10,51 @@ from Utils.test_operation import *
 
 
 class OutletPowerState(TestFixtures):
-    def test_outlet_power_state_change(self):
-        self.power_state_btn_notify_msg()
-        self.power_state_verify_not_changed()
-        self.power_state_verify_changed()
-
-    def power_state_btn_notify_msg(self):
+    @unittest.skip("Skipped for now")
+    def test_power_state_btn_notify_msg(self):
         """
         Verifies that a popup comes up with an Are you sure… message.
         Look for the DOM element “notify”
 
         """
-        print "Test case function: " + "(" + sys._getframe().f_code.co_name + ")"
 
         driver = SeleniumDriver(self.driver)
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
         powerStateBtn = '//div[8]/div[2]/form[1]/button[1]'
 
-        outletCount = 1
+        i=2
         for outletBox in outletBoxList:
-            outlet_count(outletCount)
+            outletCtrlStr = "//*[@id='outletControl']/div[{0}]".format(i)
             time.sleep(5)
-            outletBox.click()
+            driver.wait_and_click(outletCtrlStr, XPATH)
             driver.wait_and_click(powerStateBtn, XPATH)
 
-            notifyMsg = driver.is_element_present(notify_msg(), XPATH)
-
-            assert notifyMsg == True
-            print '"Are you sure.." message appeared |  PASSED'
-
+            assert self.is_hidden_string(notify_msg()) == False
             driver.wait_and_click("btnOk", ID)
+            driver.wait_and_click(close_btn_msg(), XPATH)
 
-            outletCount += 1
+            i += 1
 
-        time.sleep(8)
+        time.sleep(3)
+        self.seq_up()
 
-    def power_state_verify_not_changed(self):
+    @unittest.skip("Skipped for now")
+    def test_power_state_verify_not_changed(self):
         """
         Verify that the power state has not changed
         after clicking the cancel button
 
         """
-        print "Test case function: " + "(" + sys._getframe().f_code.co_name + ")"
 
         driver = SeleniumDriver(self.driver)
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
         powerStateBtn = '//div[8]/div[2]/form[1]/button[1]'
 
-        outletCount = 1
         for outletBox in outletBoxList:
-            outlet_count(outletCount)
             time.sleep(5)
             outletBox.click()
-            powerStateBtnClass = driver.get_element_attribute(powerStateBtn, XPATH, ClASS)
 
-            if 'state1' in powerStateBtnClass:
+            if self.is_on(powerStateBtn):
                 powerState = True
             else:
                 powerState = False
@@ -77,22 +67,18 @@ class OutletPowerState(TestFixtures):
                 print "Power state has not changed |  PASSED"
                 assert powerState == True
 
-            if 'state2' in powerStateBtnClass:
+            if self.is_on(powerStateBtn) is False:
                 print "Power state has not changed |  PASSED"
                 assert powerState == False
 
-            outletCount += 1
-
-        time.sleep(8)
-
-    def power_state_verify_changed(self):
+    @unittest.skip("Skipped for now")
+    def test_power_state_verify_changed(self):
         """
         Verify that the switch and outlet face change state
         Verify that a success message appears
         Verify that the outlet shrinks out of edit mode
 
         """
-        print "Test case function: " + "(" + sys._getframe().f_code.co_name + ")"
 
         driver = SeleniumDriver(self.driver)
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
@@ -100,16 +86,12 @@ class OutletPowerState(TestFixtures):
         outletEditMode = "//div[8]"
 
         index = 2
-        outletCount = 1
         for outletBox in outletBoxList:
-            outlet_count(outletCount)
             outletCtrlStr = ".//*[@id='outletControl']/div[{0}]/div[1]".format(index)
             time.sleep(5)
-            outletBox.click()
+            driver.wait_and_click(outletCtrlStr, XPATH)
 
-            powerStateBtnClass = driver.get_element_attribute(powerStateBtn, XPATH, ClASS)
-
-            if 'state1' in powerStateBtnClass:
+            if self.is_on(powerStateBtn):
                 powerState = True
             else:
                 powerState = False
@@ -117,21 +99,17 @@ class OutletPowerState(TestFixtures):
             driver.wait_and_click(powerStateBtn, XPATH)
             driver.wait_and_click("btnOk", ID)
 
-            successMsg = driver.is_element_present("successMsg", ID)
-            assert successMsg == True
-            print "Success message appeared |  PASSED"
+            driver.wait_and_click(close_btn_msg(), XPATH)
+            assert self.is_hidden_string(success_msg()) == False
 
             time.sleep(1)
 
             assert driver.is_element_present(outletEditMode, XPATH) == False
-            print "Outlet shrunk out of edit mode | PASSED"
 
             driver.element_click(outletCtrlStr, XPATH)
 
-            powerStateBtnClass = driver.get_element_attribute(powerStateBtn, XPATH, ClASS)
-
             if powerState:
-                if 'state1' not in powerStateBtnClass:
+                if self.is_on(powerStateBtn):
                     print "Power state changed to red |  PASSED"
                     assert powerState == True
             else:
@@ -141,6 +119,39 @@ class OutletPowerState(TestFixtures):
             driver.wait_and_click(outlet_cancel_btn(), XPATH)
 
             index += 1
-            outletCount += 1
 
-        time.sleep(8)
+        time.sleep(3)
+        self.seq_up()
+
+    # --------------------------- Functions ---------------------------
+
+    def seq_up(self):
+        """ Tests sequence up
+            Asserts a valid delay input
+        """
+
+        driver = SeleniumDriver(self.driver)
+        outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
+        upBtn = ".//*[@id='sequenceControl']/div[2]/div/button[1]"
+        initiateBtn = ".//*[@id='seqDelayCtrl']/div/button[2]"
+        delayInput = ".//*[@id='seqDelayCtrl']/span/input"
+        inputNum = 1
+
+        numOfOutletBox = len(outletBoxList)
+        index = 2
+        for outlet in outletBoxList:
+            if index > numOfOutletBox: break
+
+            outletCtrlStr = ".//*[@id='outletControl']/div[{0}]/div[1]".format(index)
+
+            if self.is_on(outletCtrlStr):
+                index += 1
+            else:
+                driver.wait_and_click(upBtn, XPATH)
+                driver.send_input(delayInput, XPATH, inputNum)
+
+                driver.wait_and_click(initiateBtn, XPATH)
+                break
+
+
+

@@ -12,7 +12,7 @@ from Utils.test_operation import *
 
 class OutletFrequency(TestFixtures):
 
-    @unittest.skip("Skipped for now")
+    #@unittest.skip("Skipped for now")
     def test_frequency_zero_input(self):
         """
         Set the Frequency to zero (0)
@@ -24,6 +24,7 @@ class OutletFrequency(TestFixtures):
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
         freqInputElem = "//div[8]/div[2]/form[2]/p[2]/input"
         enableBtn = "//div[8]/div[2]/form[1]/button[2]"
+        ip_addr_ping = "//div[8]/div[2]/form[2]/p[1]/input"
         frequency = 0
 
         outletCount = 1
@@ -33,6 +34,7 @@ class OutletFrequency(TestFixtures):
 
             driver.wait_and_click(enableBtn, XPATH)
 
+            driver.send_input(ip_addr_ping, XPATH, "8.8.8.8")
             driver.send_input(freqInputElem, XPATH, frequency)
             driver.wait_and_click(outlet_save_btn(), XPATH)
 
@@ -67,11 +69,15 @@ class OutletFrequency(TestFixtures):
             time.sleep(5)
             outletBox.click()
 
-            driver.wait_and_click(enableBtn, XPATH)
+            print driver.get_element_attribute(enableBtn, XPATH, ClASS)
+
+            if self.is_on(enableBtn) is False:
+                driver.wait_and_click(enableBtn, XPATH)
 
             driver.send_input(freqInputElem, XPATH, frequency)
             driver.wait_and_click(outlet_save_btn(), XPATH)
 
+            driver.wait_and_click(close_btn_msg(), XPATH)
             assert self.is_hidden_string(success_msg()) == False
             print "Success message appeared |  PASSED"
 

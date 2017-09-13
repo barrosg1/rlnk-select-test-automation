@@ -29,7 +29,6 @@ class TestFixtures(unittest.TestCase):
         print "\nTest Complete"
         time.sleep(5)
         self.driver.quit()
-        print "\n--------------------------------------------\n"
 
     def is_hidden_string(self, element):
         """
@@ -47,18 +46,18 @@ class TestFixtures(unittest.TestCase):
         else:
             return False
 
-    def is_off(self, element):
+    def is_on(self, element):
         """
 
         :param element: the current element (XPATH)
-        :return: returns true if 'state-off' or 'state2' is in the element's class
+        :return: returns true if 'state-on' or 'state1' is in the element's class
         """
         driver = SeleniumDriver(self.driver)
 
         driver.get_element(element, XPATH)
         element_class = driver.get_element_attribute(element, XPATH, ClASS)
 
-        if 'state-off' in element_class or 'state2' in element_class:
+        if 'state-on' in element_class or 'state1' in element_class:
             return True
         else:
             return False

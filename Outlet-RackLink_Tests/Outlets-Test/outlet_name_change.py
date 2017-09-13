@@ -1,25 +1,20 @@
-import sys
+import unittest
 import time
 
 from Utils.fixtures_test import TestFixtures
 from Utils.selenium_driver import SeleniumDriver
 from Utils.string_constants import *
-from Utils.test_operation import *
 
 
 class OutletNameChange(TestFixtures):
-    def test_outlet_name(self):
-        self.outlet_name_not_changed()
-        self.outlet_name_blank()
-        self.outlet_name_length()
 
-    def outlet_name_not_changed(self):
+    @unittest.skip("Skipped for now")
+    def test_outlet_name_not_changed(self):
         """
         Click on the outlet
         verify that the name has not changed after clicking the cancel btn.
 
         """
-        print "Test case function: " + "(" + sys._getframe().f_code.co_name + ")"
 
         driver = SeleniumDriver(self.driver)
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
@@ -28,9 +23,7 @@ class OutletNameChange(TestFixtures):
         randomInput = "Outlet Name"
 
         index = 2
-        outletCount = 1
         for outletBox in outletBoxList:
-            outlet_count(outletCount)
             outletBoxStr = ".//*[@id='outletControl']/div[{0}]".format(index)
             time.sleep(5)
             outletBox.click()
@@ -48,31 +41,23 @@ class OutletNameChange(TestFixtures):
             inputVal = driver.get_element_attribute(outletNameElement, XPATH, VALUE)
 
             assert inputVal != randomInput
-            print "Name didn't change after clicking the cancel button |  PASSED"
 
             driver.wait_and_click(outlet_cancel_btn(), XPATH)
             index += 1
-            outletCount += 1
 
-        time.sleep(8)
-
-    def outlet_name_blank(self):
+    @unittest.skip("Skipped for now")
+    def test_outlet_name_blank(self):
         """
         Verify that the name input box has a red border
         after changing the name to blank/empty
 
         """
 
-        print "Test case function: " + "(" + sys._getframe().f_code.co_name + ")"
-
         driver = SeleniumDriver(self.driver)
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
         outletNameElement = '//div[8]/div[2]/input'
-        expectedOpGood = False
 
-        outletCount = 1
         for outletBox in outletBoxList:
-            outlet_count(outletCount)
             time.sleep(5)
             outletBox.click()
             driver.wait_until_clickable(outletNameElement, XPATH)
@@ -80,33 +65,20 @@ class OutletNameChange(TestFixtures):
 
             driver.wait_and_click(outlet_save_btn(), XPATH)
 
-            notifyVisible = driver.is_element_present(notify_msg(), XPATH)
-            assert notifyVisible == True
-            print "Notification message appeared |  PASSED"
+            assert self.is_hidden_string(notify_msg()) == False
 
-            driver.get_element(outletNameElement, XPATH)
-
-            outletNameElementClass = driver.get_element_attribute(outletNameElement, XPATH, ClASS)
-            if 'has-error' in outletNameElementClass:
-                expectedOpGood = True
-                driver.wait_and_click("btnOk", ID)
-
+            driver.wait_and_click("btnOk", ID)
             driver.wait_and_click(outlet_cancel_btn(), XPATH)
 
-            assert expectedOpGood == True
-            print "Input box has a red border |  PASSED"
+            assert self.has_error(outletNameElement) == True
 
-            outletCount += 1
-        time.sleep(8)
-
-    def outlet_name_length(self):
+    # @unittest.skip("Skipped for now")
+    def test_outlet_name_length(self):
         """
         function to test outlets' name
         outlet name can only accept up to 50 characters (letters, digits, and special characters)
 
         """
-
-        print "Test case function: " + "(" + sys._getframe().f_code.co_name + ")"
 
         driver = SeleniumDriver(self.driver)
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
@@ -115,9 +87,7 @@ class OutletNameChange(TestFixtures):
         # Random characters with a length of 50 to test outlet's name
         randomChars = 'g#QUfjeTakWbxHCS*6RQ579Wq6sBV3AT?#T!DrZ6#yJpbZzC$@'
 
-        outletCount = 1
         for outletBox in outletBoxList:
-            outlet_count(outletCount)
             time.sleep(5)
             outletBox.click()
             driver.wait_until_clickable(outletNameElement, XPATH)
@@ -128,9 +98,27 @@ class OutletNameChange(TestFixtures):
 
             #  assert input
             assert 50 >= len(inputValue) >= 1
-            print "Input value is under 50 characters |  PASSED"
-            print "Input value was saved successfully |  PASSED"
 
-            outletCount += 1
+            driver.wait_and_click(close_btn_msg(), XPATH)
 
-        time.sleep(8)
+        time.sleep(3)
+        self.restore_outlet_defaults()
+
+    # ---------------------------- Functions -----------------------------
+
+    def restore_outlet_defaults(self):
+        driver = SeleniumDriver(self.driver)
+        factoryDefaults = "//nav/ul/li[5]"
+        restore_outlet_def = "//*[@id='factoryDefaults']/p[3]/input"
+
+        driver.wait_and_click(menu(), XPATH)
+        time.sleep(3)
+        driver.force_click(factoryDefaults, XPATH)
+
+        time.sleep(3)
+
+        driver.element_click(restore_outlet_def, XPATH)
+        driver.wait_and_click(save_btn(), XPATH)
+
+        time.sleep(11)  # wait for 10 seconds plus another second to click on OK button
+        driver.element_click("btnOk", ID)

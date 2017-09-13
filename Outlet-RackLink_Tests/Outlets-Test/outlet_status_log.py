@@ -8,8 +8,8 @@ from Utils.string_constants import *
 from Utils.test_operation import *
 
 
-class OutletAutoPing(TestFixtures):
-    def test_autoPing_enable(self):
+class OutletStatusLog(TestFixtures):
+    def test_outlet_status_log(self):
         """
         Asserts if the enable button is on/off
 
@@ -34,14 +34,7 @@ class OutletAutoPing(TestFixtures):
             self.driver.refresh()
             driver.wait_and_click(status_log, XPATH)
 
-            outlet_status_class = driver.get_element_attribute(outlet_status, XPATH, ClASS)
-
-            if "state-off" in outlet_status_class:
-                state_off = True
-            else:
-                state_off = False
-
-            assert state_off == True
+            assert self.is_on(outlet_status) == False
 
             time.sleep(3)
             driver.wait_and_click(close_status_log, XPATH)

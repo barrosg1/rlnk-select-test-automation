@@ -157,6 +157,31 @@ class SeleniumDriver:
             print("\nElement " + str(locator) + " did not appear on the web page")
         return element
 
+    def wait_for_invisibility(self, locator, locatorType="id",
+                            timeout=10, pollFrequency=0.5):
+        """
+        Function waits for element to be invisible in the DOM and invisible on the UI
+
+        :param locator: a string
+        :param locatorType: id, xpath, class, css, link text
+        :param timeout: time (in seconds) to wait for an element to be clickable
+        :param pollFrequency: how frequent (in seconds) it will try to poll the element
+        :return: returns the desired element
+
+        """
+
+        element = None
+        try:
+            byType = self.get_by_type(locatorType)
+            wait = WebDriverWait(self.driver, 10, poll_frequency=0.5,
+                                 ignored_exceptions=[NoSuchElementException,
+                                                     ElementNotVisibleException,
+                                                     ElementNotSelectableException])
+            element = wait.until(EC.invisibility_of_element_located((byType, locator)))
+        except ElementNotVisibleException:
+            print("\nElement " + str(locator) + " did not appear on the web page")
+        return element
+
     def wait_and_click(self, locator, locatorType,
                        timeout=10, pollFrequency=0.5):
 

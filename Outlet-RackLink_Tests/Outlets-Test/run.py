@@ -18,7 +18,7 @@ from Utils.test_operation import *
 from outlet_name_change import OutletNameChange
 from outlet_powerstate_change import OutletPowerState
 from outlet_in_sequence_checkbox import OutletInSequence
-from outlet_on_off import OutletAutoPing
+from outlet_status_log import OutletStatusLog
 from outlet_cycle_delay import OutletCycleDelay
 from outlet_edit_cancel_func import OutletEditCancel
 from outlet_ip_address_to_ping import OutletIpAddressPing
@@ -36,12 +36,12 @@ if __name__ == "__main__":
     tests = [
         # OutletNameChange,
         # OutletInSequence
-        # OutletAutoPing,
+        # OutletStatusLog,
         # OutletCycleDelay,
         # OutletEditCancel,
         # OutletIpAddressPing
-        # OutletRetries,
-        OutletFrequency
+        OutletRetries,
+        # OutletFrequency
         # OutletPowerState
         # OutletRecoveryAction
         # DateTimeSettings,
@@ -77,7 +77,7 @@ l
         OutletNameChange,
         OutletRetries,
         OutletInSequence,
-        OutletAutoPing,
+        OutletStatusLog,
         OutletCycleDelay,
         OutletEditCancel,
         OutletIpAddressPing,

@@ -31,7 +31,7 @@ class OutletCycleDelay(TestFixtures):
             outletCtrlStr = ".//*[@id='outletControl']/div[{0}]/div[1]".format(index)
             time.sleep(5)
 
-            if self.is_off(outletCtrlStr):
+            if self.is_on(outletCtrlStr) is False:
                 index += 1
             else:
                 outlet_count(outletCount)
@@ -104,13 +104,13 @@ class OutletCycleDelay(TestFixtures):
             # Verify that the outlet face has changed color to red
             time.sleep(5)
             driver.get_element(outletCtrlStr, XPATH)
-            assert self.is_off(outletCtrlStr) == True
+            assert self.is_on(outletCtrlStr) == False
             print "Outlet state is off for " + str(cycleNum) + " seconds |  PASSED"
 
             # Verify that the outlet face has changed color to green
             time.sleep(cycleNum)
             driver.get_element(outletCtrlStr, XPATH)
-            assert self.is_off(outletCtrlStr) == False
+            assert self.is_on(outletCtrlStr) == True
             print "Outlet state changed back to on |  PASSED"
             
             # Verify that the outlet shrinks out of edit 0mode

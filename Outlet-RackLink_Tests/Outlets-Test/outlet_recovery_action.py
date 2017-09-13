@@ -57,9 +57,7 @@ class OutletRecoveryAction(TestFixtures):
             driver.send_input(freqInputElem, XPATH, frequency)
             driver.send_input(retriesInputElem, XPATH, retries)
 
-            outletClass = driver.get_element_attribute(outletFace, XPATH, ClASS)
-
-            if 'state-on' not in outletClass:
+            if self.is_on(outletFace) is False:
                 driver.element_click(stateBtn, XPATH)
                 driver.element_click("btnOk", ID)
                 time.sleep(5)
@@ -82,7 +80,7 @@ class OutletRecoveryAction(TestFixtures):
                 driver.element_click("btnOk", ID)
 
             # verify if "AutoPing Failed" is in the autoPing title
-            wait.until(EC.presence_of_element_located((By.XPATH, apf)))
+            driver.wait_for_visibility(apf, XPATH)
             autoPingTitleClass = driver.get_element_attribute(autoPingTitle, XPATH, "title")
             print autoPingTitleClass
             assert autoPingTitleClass == "AutoPing Failed"
