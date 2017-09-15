@@ -47,17 +47,18 @@ class OutletRecoveryAction(TestFixtures):
             ipAddresses = get_ip_addresses()
             ipAddressToPing = ipAddresses[2]  # ip address to ping
 
+            if self.is_on(outletFace) is False:
+                driver.element_click(stateBtn, XPATH)
+                driver.element_click("btnOk", ID)
+                driver.wait_and_click(close_btn_msg(), XPATH)
+                time.sleep(5)
+                driver.get_element(outletCtrlStr, XPATH)
+                driver.wait_and_click(outletCtrlStr, XPATH)
+
             # input for ip address to ping, frequency, and retries
             driver.send_input(ipAddressInputElem, XPATH, ipAddressToPing)
             driver.send_input(freqInputElem, XPATH, frequency)
             driver.send_input(retriesInputElem, XPATH, retries)
-
-            if self.is_on(outletFace) is False:
-                driver.element_click(stateBtn, XPATH)
-                driver.element_click("btnOk", ID)
-                time.sleep(5)
-                driver.get_element(outletCtrlStr, XPATH)
-                driver.wait_and_click(outletCtrlStr, XPATH)
 
             time.sleep(3)
             driver.wait_and_click(selectOptions, XPATH)
