@@ -154,7 +154,7 @@ class SeleniumDriver:
 
     def wait_for_presence_of_element(self, locator, locator_type="id"):
         """
-        Function waits for element to be both present in the DOM and visible on the UI
+        Function waits for element to be present in the DOM
 
         :param locator: a string
         :param locator_type: id, xpath, class, css, link text
@@ -192,7 +192,7 @@ class SeleniumDriver:
 
     def wait_text_to_be_present_in_elem(self, locator, locatorType, text, timeout):
         """
-        Function waits for element to be invisible in the DOM and invisible on the UI
+        Function waits for text to be present in the element
 
         :param locator: a string
         :param locatorType: id, xpath, class, css, link text
@@ -266,8 +266,8 @@ class SeleniumDriver:
 
     def force_click(self, locator, locatorType):
         """
-        If an element can't be click with the standar click() function
-        then try to force click the element. (mostly used with list <li> in this project)
+        If an element can't be clicked with the standard click() function
+        then try to force click the element. (mostly used to click on list <li> in this project)
 
         :param locator: a string
         :param locatorType: id, xpath, class, css, link text

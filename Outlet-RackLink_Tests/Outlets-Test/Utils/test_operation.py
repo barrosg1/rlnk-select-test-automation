@@ -48,6 +48,7 @@ def host_nodes(ipNumVal):
 
     return charNodes
 
+
 def starts_with_zero(ipNumVal, ipInputClass):
     if ipNumVal[0] == "0":
         if 'has-error' in ipInputClass:

@@ -74,15 +74,20 @@ l
     output = open(file_name, "wb")
 
     tests = [
-        OutletNameChange,
-        OutletRetries,
-        OutletInSequence,
-        OutletStatusLog,
-        OutletCycleDelay,
-        OutletEditCancel,
-        OutletIpAddressPing,
-        OutletFrequency,
-        OutletPowerState
+        # OutletNameChange,
+        # OutletInSequence
+        # OutletStatusLog,
+        # OutletCycleDelay,
+        # OutletEditCancel,
+        # OutletIpAddressPing
+        # OutletRetries,
+        # OutletFrequency
+        # OutletPowerState
+        OutletRecoveryAction
+        # DateTimeSettings,
+        # DeviceSettings
+        # EmailSettings,
+        # NetworkSettings
     ]
 
     loader = TestLoader()

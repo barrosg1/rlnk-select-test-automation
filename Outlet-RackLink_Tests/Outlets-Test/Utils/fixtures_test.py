@@ -1,6 +1,6 @@
 """
 All tests will have setUp and tearDown. TestFixtures ensures that each test case
-have both setUp and tearDown.
+have both setUp, tearDown, and mostly used functions to perform during the tests.
 
 """
 
@@ -62,7 +62,6 @@ class TestFixtures(unittest.TestCase):
         else:
             return False
 
-
     def has_error(self, inputBox):
         """
 
@@ -78,5 +77,3 @@ class TestFixtures(unittest.TestCase):
             return True
         else:
             return False
-
-    
