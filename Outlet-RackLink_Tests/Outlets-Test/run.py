@@ -40,10 +40,10 @@ if __name__ == "__main__":
         # OutletCycleDelay,
         # OutletEditCancel,
         # OutletIpAddressPing
-        OutletRetries,
+        # OutletRetries,
         # OutletFrequency
         # OutletPowerState
-        # OutletRecoveryAction
+        OutletRecoveryAction
         # DateTimeSettings,
         # DeviceSettings
         # EmailSettings,

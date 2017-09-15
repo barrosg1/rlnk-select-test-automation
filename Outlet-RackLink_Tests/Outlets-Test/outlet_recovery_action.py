@@ -29,23 +29,18 @@ class OutletRecoveryAction(TestFixtures):
         selectOptions = "//div[8]/div[2]/form[2]/select"
         frequency = 30
         retries = 2
-        waitTime = frequency * retries
+        waitTime = (frequency * retries) * 2
 
         outletCount = 1
         index = 2
         for outletBox in outletBoxList:
             outletCtrlStr = ".//*[@id='outletControl']/div[{0}]/div[1]".format(index)
             autoPingTitle = "//*[@id='outletControl']/div[{0}]/h6".format(index)
-            apr = ".//*[@id='outletControl']/div[{0}]/h6[contains(text(), 'AutoPing Replied')]".format(
-                index)  # AutoPing Replied title
-            apf = ".//*[@id='outletControl']/div[{0}]/h6[contains(text(), 'AutoPing Failed')]".format(
-                index)  # AutoPing Failed title
-            wait = WebDriverWait(self.driver, waitTime)
 
             outlet_count(outletCount)
 
             time.sleep(5)
-            outletBox.click()
+            driver.wait_and_click(outletCtrlStr, XPATH)
 
             self.ctrl_device_power()  # turn outlet off in the control device
 
@@ -80,7 +75,7 @@ class OutletRecoveryAction(TestFixtures):
                 driver.element_click("btnOk", ID)
 
             # verify if "AutoPing Failed" is in the autoPing title
-            driver.wait_for_visibility(apf, XPATH)
+            driver.wait_text_to_be_present_in_elem(autoPingTitle, XPATH, 'AutoPing Failed', waitTime)
             autoPingTitleClass = driver.get_element_attribute(autoPingTitle, XPATH, "title")
             print autoPingTitleClass
             assert autoPingTitleClass == "AutoPing Failed"
@@ -88,7 +83,7 @@ class OutletRecoveryAction(TestFixtures):
             self.ctrl_device_power()  # turn outlet back on in the control device
 
             # gets class again and verify if "AutoPing Replied" is in the autoPing title
-            wait.until(EC.presence_of_element_located((By.XPATH, apr)))
+            driver.wait_text_to_be_present_in_elem(autoPingTitle, XPATH, 'AutoPing Replied', waitTime)
             driver.get_element(autoPingTitle, XPATH)
             autoPingTitleClass = driver.get_element_attribute(autoPingTitle, XPATH, "title")
             print autoPingTitleClass
@@ -100,10 +95,10 @@ class OutletRecoveryAction(TestFixtures):
             driver.element_click(outletCtrlStr, XPATH)
             driver.wait_and_click(stateBtn, XPATH)
             driver.element_click("btnOk", ID)
-            time.sleep(5)
+            driver.wait_and_click(close_btn_msg(), XPATH)
+            time.sleep(3)
             self.change_ip_address_to_default(outletCtrlStr, ipAddressInputElem)
 
-            time.sleep(5)
             outletCount += 1
             index += 1
 
@@ -640,6 +635,8 @@ class OutletRecoveryAction(TestFixtures):
             outletCount += 1
             index += 1
 
+    # ----------------------------------- Functions -----------------------------
+
     def ctrl_device_power(self):
         """
         This function opens the control device url to turn on/off the
@@ -674,6 +671,7 @@ class OutletRecoveryAction(TestFixtures):
     def change_ip_address_to_default(self, outletCtrlStr, ipAddressInputElem):
         driver = SeleniumDriver(self.driver)
         driver.get_element(outletCtrlStr, XPATH)
-        driver.element_click(outletCtrlStr, XPATH)
+        driver.wait_and_click(outletCtrlStr, XPATH)
         driver.send_input(ipAddressInputElem, XPATH, "8.8.8.8")
         driver.wait_and_click(outlet_save_btn(), XPATH)
+        driver.wait_and_click(close_btn_msg(), XPATH)
