@@ -22,7 +22,7 @@ class NetworkSettings(TestFixtures):
         gateway = "//*[@id='networkSettings']/p[3]/input"
         dns_1 = ".//*[@id='networkSettings']/p[4]/input"
         dns_2 = "//*[@id='networkSettings']/p[5]/input"
-        ipAddresses = ['0.8.8.8', '8.8.8.0', '255.8.8.8', '20.255.80',
+        invalid_ips = ['0.8.8.8', '8.8.8.0', '255.8.8.8', '20.255.80',
                        '8.8.8', '8.8.8.8.8']
 
         self.open_network_settings()
@@ -37,7 +37,7 @@ class NetworkSettings(TestFixtures):
 
         driver.wait_and_click(DHCPCheckBox, XPATH)
 
-        for ip in ipAddresses:
+        for ip in invalid_ips:
             driver.wait_until_clickable(network_ip_address, XPATH)
             driver.send_input(network_ip_address, XPATH, ip)
             driver.send_input(subnet_mask, XPATH, ip)

@@ -6,6 +6,21 @@ These functions handle functionality including but not limited to:
 
 """
 
+def get_uut_addresses():
+    inFile = open(".\\uut_addresses.txt", "r")
+    lines = inFile.readlines()
+    inFile.close()
+
+    all_ips = []
+
+    for line in lines:
+        words = [x.strip() for x in line.split(',')]
+        for word in words:
+            if word == '':
+                continue
+            all_ips.append(word)
+    return all_ips
+
 
 def ip_baseUrl_title(baseUrl):
     print "\n\nTesting on IP Address: " + baseUrl
@@ -17,7 +32,22 @@ def outlet_count(count):
 
 
 def get_ip_addresses():
-    inFile = open(".\\test_ip_addresses.txt", "r")
+    inFile = open(".\\test_ctrl_and_atp.txt", "r")
+    lines = inFile.readlines()
+    inFile.close()
+
+    all_ips = []
+
+    for line in lines:
+        words = [x.strip() for x in line.split(',')]
+        for word in words:
+            if word == '':
+                continue
+            all_ips.append(word)
+    return all_ips
+
+def get_uut_ip():
+    inFile = open(".\\UUT_IP.txt", "r")
     lines = inFile.readlines()
     inFile.close()
 

@@ -10,7 +10,7 @@ from Utils.test_operation import *
 
 
 class OutletPowerState(TestFixtures):
-    @unittest.skip("Skipped for now")
+    #@unittest.skip("Skipped for now")
     def test_power_state_btn_notify_msg(self):
         """
         Verifies that a popup comes up with an Are you sure… message.
@@ -27,18 +27,26 @@ class OutletPowerState(TestFixtures):
             outletCtrlStr = "//*[@id='outletControl']/div[{0}]".format(i)
             time.sleep(5)
             driver.wait_and_click(outletCtrlStr, XPATH)
-            driver.wait_and_click(powerStateBtn, XPATH)
 
-            assert self.is_hidden_string(notify_msg()) == False
-            driver.wait_and_click("btnOk", ID)
-            driver.wait_and_click(close_btn_msg(), XPATH)
+            if self.is_on(powerStateBtn):
+                driver.wait_and_click(powerStateBtn, XPATH)
+
+                assert self.is_hidden_string(notify_msg()) == False
+                driver.wait_and_click("btnOk", ID)
+
+                time.sleep(1)
+                if driver.is_element_present(success_msg(), XPATH):
+                    assert self.is_hidden_string(success_msg()) == False
+                    time.sleep(3)
+            else:
+                driver.wait_and_click(outlet_cancel_btn(), XPATH)
 
             i += 1
 
         time.sleep(3)
         self.seq_up()
 
-    @unittest.skip("Skipped for now")
+    #@unittest.skip("Skipped for now")
     def test_power_state_verify_not_changed(self):
         """
         Verify that the power state has not changed
@@ -64,14 +72,12 @@ class OutletPowerState(TestFixtures):
             driver.wait_and_click(outlet_cancel_btn(), XPATH)
 
             if powerState:
-                print "Power state has not changed |  PASSED"
                 assert powerState == True
 
             if self.is_on(powerStateBtn) is False:
-                print "Power state has not changed |  PASSED"
                 assert powerState == False
 
-    @unittest.skip("Skipped for now")
+    #@unittest.skip("Skipped for now")
     def test_power_state_verify_changed(self):
         """
         Verify that the switch and outlet face change state
@@ -99,21 +105,20 @@ class OutletPowerState(TestFixtures):
             driver.wait_and_click(powerStateBtn, XPATH)
             driver.wait_and_click("btnOk", ID)
 
-            driver.wait_and_click(close_btn_msg(), XPATH)
-            assert self.is_hidden_string(success_msg()) == False
+            time.sleep(1)
+            if driver.is_element_present(close_btn_msg(), XPATH):
+                driver.wait_and_click(close_btn_msg(), XPATH)
+                assert self.is_hidden_string(success_msg()) == False
 
             time.sleep(1)
-
             assert driver.is_element_present(outletEditMode, XPATH) == False
 
             driver.element_click(outletCtrlStr, XPATH)
 
             if powerState:
                 if self.is_on(powerStateBtn):
-                    print "Power state changed to red |  PASSED"
                     assert powerState == True
             else:
-                print "Power changed to green |  PASSED"
                 assert powerState == False
 
             driver.wait_and_click(outlet_cancel_btn(), XPATH)

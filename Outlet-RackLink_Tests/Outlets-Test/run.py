@@ -34,20 +34,20 @@ if __name__ == "__main__":
 
     # Create a test list
     tests = [
+        DateTimeSettings,
+        # DeviceSettings,
+        # EmailSettings,
+        # NetworkSettings,
         # OutletNameChange,
-        # OutletInSequence
+        # OutletInSequence,
         # OutletStatusLog,
         # OutletCycleDelay,
         # OutletEditCancel,
-        # OutletIpAddressPing
+        # OutletIpAddressPing,
         # OutletRetries,
-        # OutletFrequency
-        # OutletPowerState
-        OutletRecoveryAction
-        # DateTimeSettings,
-        # DeviceSettings
-        # EmailSettings,
-        # NetworkSettings
+        # OutletFrequency,
+        # OutletPowerState,
+        # OutletRecoveryAction
     ]
 
     # Load test cases
@@ -68,26 +68,26 @@ if __name__ == "__main__":
     # -----------------------------------------------------------------------------------------------------
 
     """
-       
+
     file_name = datetime.datetime.now().strftime("HTML_Reports/%Y_%m_%d_%H%M_RackLink-Select-Report.html")
-l
+
     output = open(file_name, "wb")
 
     tests = [
-        # OutletNameChange,
-        # OutletInSequence
-        # OutletStatusLog,
-        # OutletCycleDelay,
-        # OutletEditCancel,
-        # OutletIpAddressPing
-        # OutletRetries,
-        # OutletFrequency
-        # OutletPowerState
-        OutletRecoveryAction
-        # DateTimeSettings,
-        # DeviceSettings
-        # EmailSettings,
-        # NetworkSettings
+        DateTimeSettings,
+        #DeviceSettings,
+        #EmailSettings,
+        #NetworkSettings,
+        #OutletNameChange,
+        #OutletInSequence,
+        #OutletStatusLog,
+        #OutletCycleDelay,
+        #OutletEditCancel,
+        #OutletIpAddressPing,
+        #OutletRetries,
+        #OutletFrequency,
+        #OutletPowerState,
+        #OutletRecoveryAction
     ]
 
     loader = TestLoader()
@@ -99,7 +99,10 @@ l
 
     suite = TestSuite(test_list)
 
-    runner = HTMLTestRunner.HTMLTestRunner(stream=output, verbosity=2, title="RackLink Select Automated Test Results")
+    runner = HTMLTestRunner.HTMLTestRunner(stream=output, verbosity=2,
+                                            title="RackLink Select Automated Test Results",
+                                           description="RackLink Select Testing RLNK-415R"
+                                           )
     runner.run(suite)
-    
+
     """

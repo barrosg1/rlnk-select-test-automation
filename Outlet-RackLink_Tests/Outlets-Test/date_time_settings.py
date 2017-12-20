@@ -9,7 +9,7 @@ from Utils.string_constants import *
 
 class DateTimeSettings(TestFixtures):
 
-    #@unittest.skip("Skipped for now")
+    @unittest.skip("NTP Server URL needs fix")
     def test_date_time(self):
         driver = SeleniumDriver(self.driver)
         dateTime = "//nav/ul/li[2]"
@@ -30,9 +30,9 @@ class DateTimeSettings(TestFixtures):
         driver.wait_and_click(timeZone, XPATH)
 
         driver.element_click(save_btn(), XPATH)
-        driver.wait_and_click(close_btn_msg(), XPATH)
+        driver.wait_and_click(save_btn(), XPATH)
 
-        time.sleep(3)
+        time.sleep(5)
         driver.get_element(menu(), XPATH)
         driver.wait_and_click(menu(), XPATH)
         driver.wait_and_click(dateTime, XPATH)
@@ -94,7 +94,6 @@ class DateTimeSettings(TestFixtures):
             driver.wait_and_click(btnAPM, XPATH)
 
         driver.wait_and_click(save_btn(), XPATH)
-        driver.wait_and_click(close_btn_msg(), XPATH)
 
     # -------------------- Functions --------------------------------
 

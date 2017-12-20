@@ -2,6 +2,14 @@
 All tests will have setUp and tearDown. TestFixtures ensures that each test case
 have both setUp, tearDown, and mostly used functions to perform during the tests.
 
+
+Note: IE version 9 and onwards does not accept username and password in the url for example:
+
+    http://username:password@192.168.0.34 will NOT work
+
+To run the test on different browsers (IE, Chrome, Firefox, Edge) in parallel, Selenium Standalone Server must be
+used. See http://www.seleniumhq.org/download/ for more information.
+
 """
 
 import unittest
@@ -11,24 +19,38 @@ from string_constants import *
 from test_operation import *
 import time
 
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+
+# create capabilities
+capabilities = DesiredCapabilities.INTERNETEXPLORER
+
+# delete platform and version keys
+capabilities.pop("platform", None)
+capabilities.pop("version", None)
 
 class TestFixtures(unittest.TestCase):
-    def setUp(self):
-        self.driver = webdriver.Firefox()
-        self.driver.maximize_window()
-        self.driver.implicitly_wait(10)
 
-        ipAddress = get_ip_addresses()
-        self.baseUrl = ipAddress[0]
+    def setUp(self):
         try:
+            # Different browsers to test
+            self.driver = webdriver.Chrome()
+            #self.driver = webdriver.Firefox()
+            #self.driver = webdriver.Ie()
+
+            self.driver.maximize_window()
+
+            self.baseUrl = get_uut_addresses()[0]
             self.driver.get(self.baseUrl)
+
+            self.driver.implicitly_wait(10)
         except:
-            print "Invalid IP Address"
+            print "Could not open url (" + self.baseUrl + ")."
 
     def tearDown(self):
-        print "\nTest Complete"
-        time.sleep(5)
+        time.sleep(4)
         self.driver.quit()
+
+    # ----------------------------- most used functions -----------------------------
 
     def is_hidden_string(self, element):
         """

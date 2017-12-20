@@ -6,23 +6,23 @@ import unittest
 from selenium import webdriver
 from Utils.fixtures_test import TestFixtures
 from Utils.selenium_driver import SeleniumDriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from Utils.string_constants import *
 from Utils.test_operation import *
 
+# global variables
+enableBtn = "//div[8]/div[2]/form[1]/button[2]"
+outletFace = "//div[8]/div[1]"
+stateBtn = "//div[8]/div[2]/form[1]/button[1]"
+
 
 class OutletRecoveryAction(TestFixtures):
 
-    # @unittest.skip("Skipped for now")
+    #@unittest.skip("Skipped for now")
     def test_power_off(self):
         driver = SeleniumDriver(self.driver)
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
         powerOffOption = "//div[8]/div[2]/form[2]/select/option[contains(@value, '1')]"
-        outletFace = "//div[8]/div[1]"
-        stateBtn = "//div[8]/div[2]/form[1]/button[1]"
         ipAddressInputElem = '//div[8]/div[2]/form[2]/p[1]/input'
         freqInputElem = "//div[8]/div[2]/form[2]/p[2]/input"
         retriesInputElem = "//div[8]/div[2]/form[2]/p[3]/input"
@@ -31,13 +31,10 @@ class OutletRecoveryAction(TestFixtures):
         retries = 2
         waitTime = (frequency * retries) * 2
 
-        outletCount = 1
         index = 2
         for outletBox in outletBoxList:
             outletCtrlStr = ".//*[@id='outletControl']/div[{0}]/div[1]".format(index)
             autoPingTitle = "//*[@id='outletControl']/div[{0}]/h6".format(index)
-
-            outlet_count(outletCount)
 
             time.sleep(5)
             driver.wait_and_click(outletCtrlStr, XPATH)
@@ -47,7 +44,7 @@ class OutletRecoveryAction(TestFixtures):
             ipAddresses = get_ip_addresses()
             ipAddressToPing = ipAddresses[2]  # ip address to ping
 
-            if self.is_on(outletFace) is False:
+            if not self.is_on(outletFace):
                 driver.element_click(stateBtn, XPATH)
                 driver.element_click("btnOk", ID)
                 driver.wait_and_click(close_btn_msg(), XPATH)
@@ -55,7 +52,11 @@ class OutletRecoveryAction(TestFixtures):
                 driver.get_element(outletCtrlStr, XPATH)
                 driver.wait_and_click(outletCtrlStr, XPATH)
 
+            if not self.is_on(enableBtn):
+                driver.wait_and_click(enableBtn, XPATH)
+
             # input for ip address to ping, frequency, and retries
+            time.sleep(3)
             driver.send_input(ipAddressInputElem, XPATH, ipAddressToPing)
             driver.send_input(freqInputElem, XPATH, frequency)
             driver.send_input(retriesInputElem, XPATH, retries)
@@ -78,7 +79,6 @@ class OutletRecoveryAction(TestFixtures):
             # verify if "AutoPing Failed" is in the autoPing title
             driver.wait_text_to_be_present_in_elem(autoPingTitle, XPATH, 'AutoPing Failed', waitTime)
             autoPingTitleClass = driver.get_element_attribute(autoPingTitle, XPATH, "title")
-            print autoPingTitleClass
             assert autoPingTitleClass == "AutoPing Failed"
 
             self.ctrl_device_power()  # turn outlet back on in the control device
@@ -87,7 +87,6 @@ class OutletRecoveryAction(TestFixtures):
             driver.wait_text_to_be_present_in_elem(autoPingTitle, XPATH, 'AutoPing Replied', waitTime)
             driver.get_element(autoPingTitle, XPATH)
             autoPingTitleClass = driver.get_element_attribute(autoPingTitle, XPATH, "title")
-            print autoPingTitleClass
             assert autoPingTitleClass == "AutoPing Replied"
 
             # open outlet in UUT, turn it back on, change ip address to default, & save changes
@@ -96,20 +95,23 @@ class OutletRecoveryAction(TestFixtures):
             driver.element_click(outletCtrlStr, XPATH)
             driver.wait_and_click(stateBtn, XPATH)
             driver.element_click("btnOk", ID)
-            driver.wait_and_click(close_btn_msg(), XPATH)
+
+            time.sleep(1)
+            if driver.is_element_present(close_btn_msg(), XPATH):
+                driver.element_click(close_btn_msg(), XPATH)
+            else:
+                time.sleep(3)
+
             time.sleep(3)
             self.change_ip_address_to_default(outletCtrlStr, ipAddressInputElem)
 
-            outletCount += 1
             index += 1
 
-    # @unittest.skip("Skipped for now")
+    @unittest.skip("Skipped for now")
     def test_power_off_pending_recovery(self):
         driver = SeleniumDriver(self.driver)
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
         powerOffPendRec = "//div[8]/div[2]/form[2]/select/option[contains(@value, '2')]"
-        outletFace = "//div[8]/div[1]"
-        stateBtn = "//div[8]/div[2]/form[1]/button[1]"
         ipAddressInputElem = '//div[8]/div[2]/form[2]/p[1]/input'
         freqInputElem = "//div[8]/div[2]/form[2]/p[2]/input"
         retriesInputElem = "//div[8]/div[2]/form[2]/p[3]/input"
@@ -118,13 +120,10 @@ class OutletRecoveryAction(TestFixtures):
         retries = 2
         waitTime = (frequency * retries) * 2
 
-        outletCount = 1
         index = 2
         for outletBox in outletBoxList:
             outletCtrlStr = ".//*[@id='outletControl']/div[{0}]/div[1]".format(index)
             autoPingTitle = "//*[@id='outletControl']/div[{0}]/h6".format(index)
-
-            outlet_count(outletCount)
 
             time.sleep(5)
             driver.wait_and_click(outletCtrlStr, XPATH)
@@ -134,12 +133,15 @@ class OutletRecoveryAction(TestFixtures):
             ipAddresses = get_ip_addresses()
             ipAddressToPing = ipAddresses[2]  # ip address to ping
 
-            if self.is_on(outletFace) is False:
+            if not self.is_on(outletFace):
                 driver.element_click(stateBtn, XPATH)
                 driver.element_click("btnOk", ID)
                 time.sleep(5)
                 driver.get_element(outletCtrlStr, XPATH)
                 driver.wait_and_click(outletCtrlStr, XPATH)
+
+            if not self.is_on(enableBtn):
+                driver.wait_and_click(enableBtn, XPATH)
 
             # input for ip address to ping, frequency, and retries
             driver.send_input(ipAddressInputElem, XPATH, ipAddressToPing)
@@ -164,7 +166,6 @@ class OutletRecoveryAction(TestFixtures):
             # verify if "AutoPing Failed" is in the autoPing title
             driver.wait_text_to_be_present_in_elem(autoPingTitle, XPATH, 'AutoPing Failed', waitTime)
             autoPingTitleClass = driver.get_element_attribute(autoPingTitle, XPATH, "title")
-            print autoPingTitleClass
             assert autoPingTitleClass == "AutoPing Failed"
 
             self.ctrl_device_power()  # turn outlet back on in the control device
@@ -172,7 +173,6 @@ class OutletRecoveryAction(TestFixtures):
             # gets class again and verify if "AutoPing Replied" is in the autoPing title
             driver.wait_text_to_be_present_in_elem(autoPingTitle, XPATH, 'AutoPing Replied', waitTime)
             autoPingTitleClass = driver.get_element_attribute(autoPingTitle, XPATH, "title")
-            print autoPingTitleClass
             assert autoPingTitleClass == "AutoPing Replied"
 
             # verify that the outlet in the UUT turned back on
@@ -182,17 +182,14 @@ class OutletRecoveryAction(TestFixtures):
             time.sleep(3)
             self.change_ip_address_to_default(outletCtrlStr, ipAddressInputElem)
 
-            outletCount += 1
             index += 1
 
-    # @unittest.skip("Skipped for now")
+    @unittest.skip("Skipped for now")
     def test_power_on(self):
 
         driver = SeleniumDriver(self.driver)
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
         powerOn = "//div[8]/div[2]/form[2]/select/option[contains(@value, '3')]"
-        outletFace = "//div[8]/div[1]"
-        stateBtn = "//div[8]/div[2]/form[1]/button[1]"
         ipAddressInputElem = '//div[8]/div[2]/form[2]/p[1]/input'
         freqInputElem = "//div[8]/div[2]/form[2]/p[2]/input"
         retriesInputElem = "//div[8]/div[2]/form[2]/p[3]/input"
@@ -201,12 +198,10 @@ class OutletRecoveryAction(TestFixtures):
         retries = 2
         waitTime = (frequency * retries) * 2
 
-        outletCount = 1
         index = 2
         for outletBox in outletBoxList:
             outletCtrlStr = ".//*[@id='outletControl']/div[{0}]/div[1]".format(index)
             autoPingTitle = "//*[@id='outletControl']/div[{0}]/h6".format(index)
-            outlet_count(outletCount)
 
             time.sleep(5)
             driver.wait_and_click(outletCtrlStr, XPATH)
@@ -223,6 +218,9 @@ class OutletRecoveryAction(TestFixtures):
                 time.sleep(5)
                 driver.get_element(outletCtrlStr, XPATH)
                 driver.wait_and_click(outletCtrlStr, XPATH)
+
+            if not self.is_on(enableBtn):
+                driver.wait_and_click(enableBtn, XPATH)
 
             # input for ip address to ping, frequency, and retries
             driver.send_input(ipAddressInputElem, XPATH, ipAddressToPing)
@@ -247,7 +245,6 @@ class OutletRecoveryAction(TestFixtures):
             # verify if "AutoPing Failed" is in the autoPing title
             driver.wait_text_to_be_present_in_elem(autoPingTitle, XPATH, 'AutoPing Failed', waitTime)
             autoPingTitleClass = driver.get_element_attribute(autoPingTitle, XPATH, "title")
-            print autoPingTitleClass
             assert autoPingTitleClass == "AutoPing Failed"
 
             # verify that the outlet in the UUT turned on
@@ -255,11 +252,9 @@ class OutletRecoveryAction(TestFixtures):
 
             self.ctrl_device_power()  # turn outlet back on in the control device
 
-
             # gets class again and verify if "AutoPing Replied" is in the autoPing title
             driver.wait_text_to_be_present_in_elem(autoPingTitle, XPATH, 'AutoPing Replied', waitTime)
             autoPingTitleClass = driver.get_element_attribute(autoPingTitle, XPATH, "title")
-            print autoPingTitleClass
             assert autoPingTitleClass == "AutoPing Replied"
 
             # verify that the outlet in the UUT turned back on
@@ -269,17 +264,14 @@ class OutletRecoveryAction(TestFixtures):
             time.sleep(3)
             self.change_ip_address_to_default(outletCtrlStr, ipAddressInputElem)
 
-            outletCount += 1
             index += 1
 
-    # @unittest.skip("Skipped for now")
+    @unittest.skip("Skipped for now")
     def test_power_on_pending_recovery(self):
 
         driver = SeleniumDriver(self.driver)
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
         powerOnPendRec = "//div[8]/div[2]/form[2]/select/option[contains(@value, '4')]"
-        outletFace = "//div[8]/div[1]"
-        stateBtn = "//div[8]/div[2]/form[1]/button[1]"
         ipAddressInputElem = '//div[8]/div[2]/form[2]/p[1]/input'
         freqInputElem = "//div[8]/div[2]/form[2]/p[2]/input"
         retriesInputElem = "//div[8]/div[2]/form[2]/p[3]/input"
@@ -288,12 +280,11 @@ class OutletRecoveryAction(TestFixtures):
         retries = 2
         waitTime = (frequency * retries) * 2
 
-        outletCount = 1
         index = 2
         for outletBox in outletBoxList:
             outletCtrlStr = ".//*[@id='outletControl']/div[{0}]/div[1]".format(index)
+            outletOn = "//*[@id='outletControl']/div[{0}]/div[contains(@class, 'state-on')]".format(index)
             autoPingTitle = "//*[@id='outletControl']/div[{0}]/h6".format(index)
-            outlet_count(outletCount)
 
             time.sleep(5)
             driver.wait_and_click(outletCtrlStr, XPATH)
@@ -310,6 +301,9 @@ class OutletRecoveryAction(TestFixtures):
                 time.sleep(5)
                 driver.get_element(outletCtrlStr, XPATH)
                 driver.wait_and_click(outletCtrlStr, XPATH)
+
+            if not self.is_on(enableBtn):
+                driver.wait_and_click(enableBtn, XPATH)
 
             # input for ip address to ping, frequency, and retries
             driver.send_input(ipAddressInputElem, XPATH, ipAddressToPing)
@@ -334,25 +328,24 @@ class OutletRecoveryAction(TestFixtures):
             # verify if "AutoPing Failed" is in the autoPing title
             driver.wait_text_to_be_present_in_elem(autoPingTitle, XPATH, 'AutoPing Failed', waitTime)
             autoPingTitleClass = driver.get_element_attribute(autoPingTitle, XPATH, "title")
-            print autoPingTitleClass
             assert autoPingTitleClass == "AutoPing Failed"
 
             self.ctrl_device_power()  # turn outlet back on in the control device
 
             # verify that the outlet in the UUT turned on
+            driver.wait_for_visibility(outletOn, XPATH)
             assert self.is_on(outletCtrlStr) == True
 
             # gets class again and verify if "AutoPing Replied" is in the autoPing title
             driver.wait_text_to_be_present_in_elem(autoPingTitle, XPATH, 'AutoPing Replied', waitTime)
             autoPingTitleClass = driver.get_element_attribute(autoPingTitle, XPATH, "title")
-            print autoPingTitleClass
             assert autoPingTitleClass == "AutoPing Replied"
 
             # open outlet in UUT, change ip address to default, & save changes
             time.sleep(3)
             self.change_ip_address_to_default(outletCtrlStr, ipAddressInputElem)
 
-            if self.is_on(outletFace) is False:
+            if not self.is_on(outletCtrlStr):
                 time.sleep(5)
                 driver.get_element(outletCtrlStr, XPATH)
                 driver.wait_and_click(outletCtrlStr, XPATH)
@@ -360,18 +353,13 @@ class OutletRecoveryAction(TestFixtures):
                 driver.element_click("btnOk", ID)
                 driver.wait_and_click(close_btn_msg(), XPATH)
 
-            outletCount += 1
             index += 1
 
-    # @unittest.skip("Skipped for now")
+    @unittest.skip("Skipped for now")
     def test_power_cycle_once(self):
-        print "Test case function: " + "(" + sys._getframe().f_code.co_name + ")"
-
         driver = SeleniumDriver(self.driver)
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
         powerCycleOnce = "//div[8]/div[2]/form[2]/select/option[contains(@value, '5')]"
-        outletFace = "//div[8]/div[1]"
-        stateBtn = "//div[8]/div[2]/form[1]/button[1]"
         ipAddressInputElem = '//div[8]/div[2]/form[2]/p[1]/input'
         freqInputElem = "//div[8]/div[2]/form[2]/p[2]/input"
         retriesInputElem = "//div[8]/div[2]/form[2]/p[3]/input"
@@ -382,12 +370,10 @@ class OutletRecoveryAction(TestFixtures):
         cycleDelay = 3
         waitTime = (frequency * retries) * 2
 
-        outletCount = 1
         index = 2
         for outletBox in outletBoxList:
             outletCtrlStr = ".//*[@id='outletControl']/div[{0}]/div[1]".format(index)
             autoPingTitle = "//*[@id='outletControl']/div[{0}]/h6".format(index)
-            outlet_count(outletCount)
 
             time.sleep(5)
             driver.wait_and_click(outletCtrlStr, XPATH)
@@ -397,13 +383,16 @@ class OutletRecoveryAction(TestFixtures):
             ipAddresses = get_ip_addresses()
             ipAddressToPing = ipAddresses[2]  # ip address to ping
 
-            if self.is_on(outletFace) is False:
+            if not self.is_on(outletFace):
                 driver.element_click(stateBtn, XPATH)
                 driver.element_click("btnOk", ID)
                 driver.wait_and_click(close_btn_msg(), XPATH)
                 time.sleep(5)
                 driver.get_element(outletCtrlStr, XPATH)
                 driver.wait_and_click(outletCtrlStr, XPATH)
+
+            if not self.is_on(enableBtn):
+                driver.wait_and_click(enableBtn, XPATH)
 
             # send input for ip address to ping, frequency, and retries
             driver.send_input(ipAddressInputElem, XPATH, ipAddressToPing)
@@ -427,12 +416,9 @@ class OutletRecoveryAction(TestFixtures):
             if notifyDisplayed:
                 driver.element_click("btnOk", ID)
 
-            assert self.is_on(outletCtrlStr) == True
-
             # verify if "AutoPing Failed" is in the autoPing title
             driver.wait_text_to_be_present_in_elem(autoPingTitle, XPATH, 'AutoPing Failed', waitTime)
             autoPingTitleClass = driver.get_element_attribute(autoPingTitle, XPATH, "title")
-            print autoPingTitleClass
             assert autoPingTitleClass == "AutoPing Failed"
 
             self.ctrl_device_power()  # turn outlet back on in the control device
@@ -443,24 +429,20 @@ class OutletRecoveryAction(TestFixtures):
             # gets class again and verify if "AutoPing Replied" is in the autoPing title
             driver.wait_text_to_be_present_in_elem(autoPingTitle, XPATH, 'AutoPing Replied', waitTime)
             autoPingTitleClass = driver.get_element_attribute(autoPingTitle, XPATH, "title")
-            print autoPingTitleClass
             assert autoPingTitleClass == "AutoPing Replied"
 
             # open outlet in UUT, turn it back on, change ip address to default, & save changes
             time.sleep(3)
             self.change_ip_address_to_default(outletCtrlStr, ipAddressInputElem)
 
-            outletCount += 1
             index += 1
 
-    # @unittest.skip("Skipped for now")
+    @unittest.skip("Skipped for now")
     def test_power_cycle_until_recovery(self):
 
         driver = SeleniumDriver(self.driver)
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
         powerCycUntilRec = "//div[8]/div[2]/form[2]/select/option[contains(@value, '6')]"
-        outletFace = "//div[8]/div[1]"
-        stateBtn = "//div[8]/div[2]/form[1]/button[1]"
         ipAddressInputElem = '//div[8]/div[2]/form[2]/p[1]/input'
         freqInputElem = "//div[8]/div[2]/form[2]/p[2]/input"
         retriesInputElem = "//div[8]/div[2]/form[2]/p[3]/input"
@@ -471,12 +453,11 @@ class OutletRecoveryAction(TestFixtures):
         cycleDelay = 3
         waitTime = (frequency * retries) * 2
 
-        outletCount = 1
         index = 2
         for outletBox in outletBoxList:
             outletCtrlStr = ".//*[@id='outletControl']/div[{0}]/div[1]".format(index)
+            outletOn = "//*[@id='outletControl']/div[{0}]/div[contains(@class, 'state-on')]".format(index)
             autoPingTitle = "//*[@id='outletControl']/div[{0}]/h6".format(index)
-            outlet_count(outletCount)
 
             time.sleep(5)
             driver.wait_and_click(outletCtrlStr, XPATH)
@@ -493,6 +474,9 @@ class OutletRecoveryAction(TestFixtures):
                 time.sleep(5)
                 driver.get_element(outletCtrlStr, XPATH)
                 driver.wait_and_click(outletCtrlStr, XPATH)
+
+            if not self.is_on(enableBtn):
+                driver.wait_and_click(enableBtn, XPATH)
 
             # input for ip address to ping, frequency, and retries
             driver.send_input(ipAddressInputElem, XPATH, ipAddressToPing)
@@ -519,28 +503,26 @@ class OutletRecoveryAction(TestFixtures):
             # verify if "AutoPing Failed" is in the autoPing title
             driver.wait_text_to_be_present_in_elem(autoPingTitle, XPATH, 'AutoPing Failed', waitTime)
             autoPingTitleClass = driver.get_element_attribute(autoPingTitle, XPATH, "title")
-            print autoPingTitleClass
             assert autoPingTitleClass == "AutoPing Failed"
 
             self.ctrl_device_power()  # turn outlet back on in the control device
 
             # verify that the outlet in the UUT is on, wait cycle delay
             # then verify that the outlet turned off
+            driver.wait_for_visibility(outletOn, XPATH)
             assert self.is_on(outletCtrlStr) == True
-            time.sleep(cycleDelay)
+            time.sleep(cycleDelay+1)
             assert self.is_on(outletCtrlStr) == False
 
             # gets class again and verify if "AutoPing Replied" is in the autoPing title
             driver.wait_text_to_be_present_in_elem(autoPingTitle, XPATH, 'AutoPing Replied', waitTime)
             autoPingTitleClass = driver.get_element_attribute(autoPingTitle, XPATH, "title")
-            print autoPingTitleClass
             assert autoPingTitleClass == "AutoPing Replied"
 
             # open outlet in UUT, turn it back on, change ip address to default, & save changes
             time.sleep(3)
             self.change_ip_address_to_default(outletCtrlStr, ipAddressInputElem)
 
-            outletCount += 1
             index += 1
 
     # ----------------------------------- Functions --------------------------------------
@@ -582,4 +564,9 @@ class OutletRecoveryAction(TestFixtures):
         driver.wait_and_click(outletCtrlStr, XPATH)
         driver.send_input(ipAddressInputElem, XPATH, "8.8.8.8")
         driver.wait_and_click(outlet_save_btn(), XPATH)
-        driver.wait_and_click(close_btn_msg(), XPATH)
+
+        time.sleep(1)
+        if driver.is_element_present(success_msg(), XPATH):
+            driver.wait_and_click(close_btn_msg(), XPATH)
+        else:
+            time.sleep(3)

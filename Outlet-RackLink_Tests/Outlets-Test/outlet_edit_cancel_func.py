@@ -22,9 +22,7 @@ class OutletEditCancel(TestFixtures):
         outletEditMode = "//div[8]"
 
         index = 2
-        outletCount = 1
         for outletBox in outletBoxList:
-            outlet_count(outletCount)
             expectedOpGood = True
             time.sleep(5)
             outletBox.click()
@@ -32,15 +30,11 @@ class OutletEditCancel(TestFixtures):
             outletElemClass = driver.get_element_attribute(outletEditMode, XPATH, ClASS)
 
             if 'guitarSolo' in outletElemClass:
-                print "Outlet expands into edit mode | PASSED"
                 assert expectedOpGood == True
 
             driver.wait_and_click(outlet_cancel_btn(), XPATH)
 
             time.sleep(1)
             assert driver.is_element_present(outletEditMode, XPATH) == False
-            print "Outlet shrunk out of edit mode | PASSED"
 
             index += 1
-            outletCount += 1
-        time.sleep(8)

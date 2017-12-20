@@ -11,7 +11,7 @@ from Utils.test_operation import *
 
 
 class OutletInSequence(TestFixtures):
-    @unittest.skip("Skipped for now")
+    #@unittest.skip("Skipped for now")
     def test_inSeq_selected(self):
         """
         Asserts each outlet is in-sequence
@@ -33,28 +33,29 @@ class OutletInSequence(TestFixtures):
             print "\nAll outlets are already off"
             return
 
-        outletCount = 1
+        index = 2
         for outletBox in outletBoxList:
-            outlet_count(outletCount)
+            outletCtrlStr = ".//*[@id='outletControl']/div[{0}]/div[1]".format(index)
             time.sleep(5)
-            outletBox.click()
+            driver.wait_and_click(outletCtrlStr, XPATH)
             time.sleep(3)
 
             if not driver.is_element_selected(inSeqInput, XPATH):
+                driver.wait_for_visibility(inSeqInput, XPATH)
                 driver.element_click(inSeqInput, XPATH)
                 assert driver.is_element_selected(inSeqInput, XPATH) == True
                 driver.wait_and_click(outlet_save_btn(), XPATH)
+                driver.wait_and_click(close_btn_msg(), XPATH)
             else:
                 driver.wait_and_click(outlet_save_btn(), XPATH)
+                driver.wait_and_click(close_btn_msg(), XPATH)
 
             if 'in-sequence' in outletBox.get_attribute(ClASS):
                 assert 'in-sequence' in outletBox.get_attribute(ClASS)
 
-            outletCount += 1
+            index += 1
 
-        time.sleep(8)
-
-    @unittest.skip("Skipped for now")
+    #@unittest.skip("Skipped for now")
     def test_check_inSeq_only(self):
         """
         Verify that the outlet is no longer displayed in the Outlet Control
@@ -94,7 +95,6 @@ class OutletInSequence(TestFixtures):
             outletDisplayed = self.driver.find_element_by_xpath(outletCtrlStr).is_displayed()
             if not outletDisplayed:
                 assert outletDisplayed == False
-                print "Outlet is no longer in-sequence |  PASSED"
 
             index += 1
 
@@ -103,11 +103,11 @@ class OutletInSequence(TestFixtures):
             driver.wait_and_click("btnOk", ID)
 
         assert theMsgDisplayed == True
-        print '"Currently no outlets in in-seq" message displayed |  PASSED '
 
-        time.sleep(8)
+        time.sleep(3)
+        self.restore_seq_defaults()
 
-    @unittest.skip("Skipped for now")
+    # @unittest.skip("Skipped for now")
     def test_seq_down(self):
         """ Tests sequence down
             Asserts a valid delay input
@@ -129,33 +129,32 @@ class OutletInSequence(TestFixtures):
 
         time.sleep(4)
         if numOutletsStateOff == numOfOutletBox:
-            assert numOutletsStateOff == numOfOutletBox
-            print "\nAll outlets are already off"
-            return
-        else:
-            index = numOfOutletBox
-            for outlet in outletBoxList[::-1]:
-                outletCtrlStr = ".//*[@id='outletControl']/div[{0}]/div[1]".format(index)
+            self.turn_outlets_on()
 
-                if self.is_on(outletCtrlStr) is False:
-                    index -= 1
-                else:
-                    driver.wait_and_click(downBtn, XPATH)
-                    driver.send_input(delayInput, XPATH, inputNum)
+        index = numOfOutletBox
+        for outlet in outletBoxList[::-1]:
+            outletCtrlStr = ".//*[@id='outletControl']/div[{0}]/div[1]".format(index)
 
-                    delayInputVal = driver.get_element_attribute(delayInput, XPATH, VALUE)
-                    assert 255 >= int(delayInputVal) >= 1
-                    print "Delay input value is within 1 - 255 |  PASSED"
+            if self.is_on(outletCtrlStr) is False:
+                index -= 1
+            else:
+                driver.wait_and_click(downBtn, XPATH)
+                driver.send_input(delayInput, XPATH, inputNum)
 
-                    driver.wait_and_click(initiateBtn, XPATH)
-                    break
-            time.sleep(inputNum * numOfOutletBox)
+                delayInputVal = driver.get_element_attribute(delayInput, XPATH, VALUE)
+                assert 255 >= int(delayInputVal) >= 1
+
+                driver.wait_and_click(initiateBtn, XPATH)
+                break
+        time.sleep(inputNum * numOfOutletBox)
 
         outletsWithStateOff = self.driver.find_elements_by_class_name("state-off")
         numOutletsStateOff = len(outletsWithStateOff)
         assert numOutletsStateOff == numOfOutletBox
 
-    # @unittest.skip("Skipped for now")
+        self.turn_outlets_on()
+
+    #@unittest.skip("Skipped for now")
     def test_seq_up(self):
         """ Tests sequence up
             Asserts a valid delay input
@@ -166,42 +165,39 @@ class OutletInSequence(TestFixtures):
         upBtn = ".//*[@id='sequenceControl']/div[2]/div/button[1]"
         initiateBtn = ".//*[@id='seqDelayCtrl']/div/button[2]"
         delayInput = ".//*[@id='seqDelayCtrl']/span/input"
-        inputNum = 5
+        inputNum = 3
+
+        numOfOutletBox = len(outletBoxList)
 
         outletsWithStateOn = self.driver.find_elements_by_class_name("state-on")
-        numOfOutletBox = len(outletBoxList)
         numOutletsStateOn = len(outletsWithStateOn)
 
         if numOutletsStateOn == numOfOutletBox:
-            assert numOutletsStateOn == numOfOutletBox
-            print "\nAll the outlets are already on"
-            return
-        else:
-            index = 2
-            for outlet in outletBoxList:
-                if index > numOfOutletBox: break
+            self.turn_outlets_off()
 
-                outletCtrlStr = ".//*[@id='outletControl']/div[{0}]/div[1]".format(index)
+        index = 2
+        for outlet in outletBoxList:
+            if index > numOfOutletBox: break
 
-                if self.is_on(outletCtrlStr):
-                    index += 1
-                else:
-                    driver.wait_and_click(upBtn, XPATH)
-                    driver.send_input(delayInput, XPATH, inputNum)
+            outletCtrlStr = ".//*[@id='outletControl']/div[{0}]/div[1]".format(index)
 
-                    delayInputVal = driver.get_element_attribute(delayInput, XPATH, VALUE)
-                    assert 255 >= int(delayInputVal) >= 1
-                    print "Delay input value is withing 1 - 255 |  PASSED"
+            if self.is_on(outletCtrlStr):
+                index += 1
+            else:
+                driver.wait_and_click(upBtn, XPATH)
+                driver.send_input(delayInput, XPATH, inputNum)
 
-                    driver.wait_and_click(initiateBtn, XPATH)
-                    break
+                delayInputVal = driver.get_element_attribute(delayInput, XPATH, VALUE)
+                assert 255 >= int(delayInputVal) >= 1
+
+                driver.wait_and_click(initiateBtn, XPATH)
+                break
 
         time.sleep(inputNum * numOfOutletBox)
 
         outletsWithStateOn = self.driver.find_elements_by_class_name("state-on")
         numOutletsStateOn = len(outletsWithStateOn)
         assert numOutletsStateOn == numOfOutletBox
-        print "All visible outlets turned on |  PASSED"
 
     # ------------------------- Functions ------------------------------
 
@@ -224,3 +220,40 @@ class OutletInSequence(TestFixtures):
 
         time.sleep(11)
         driver.element_click("btnOk", ID)
+
+    def turn_outlets_on(self):
+        driver = SeleniumDriver(self.driver)
+        outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
+        numOfOutletBox = len(outletBoxList)
+
+        upBtn = ".//*[@id='sequenceControl']/div[2]/div/button[1]"
+        initiateBtn = ".//*[@id='seqDelayCtrl']/div/button[2]"
+        delayInput = ".//*[@id='seqDelayCtrl']/span/input"
+        inputNum = 1
+
+        driver.wait_and_click(upBtn, XPATH)
+        driver.send_input(delayInput, XPATH, inputNum)
+
+        driver.wait_and_click(initiateBtn, XPATH)
+
+        time.sleep(inputNum * numOfOutletBox)
+
+
+
+    def turn_outlets_off(self):
+        driver = SeleniumDriver(self.driver)
+        outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
+        numOfOutletBox = len(outletBoxList)
+
+        downBtn = ".//*[@id='sequenceControl']/div[2]/div/button[2]"
+        initiateBtn = ".//*[@id='seqDelayCtrl']/div/button[2]"
+        delayInput = ".//*[@id='seqDelayCtrl']/span/input"
+        inputNum = 1
+
+        driver.wait_and_click(downBtn, XPATH)
+        driver.send_input(delayInput, XPATH, inputNum)
+
+        driver.wait_and_click(initiateBtn, XPATH)
+
+        time.sleep(inputNum * numOfOutletBox)
+

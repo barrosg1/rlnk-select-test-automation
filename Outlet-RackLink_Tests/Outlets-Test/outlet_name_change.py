@@ -8,7 +8,7 @@ from Utils.string_constants import *
 
 class OutletNameChange(TestFixtures):
 
-    @unittest.skip("Skipped for now")
+    #@unittest.skip("Skipped for now")
     def test_outlet_name_not_changed(self):
         """
         Click on the outlet
@@ -45,7 +45,7 @@ class OutletNameChange(TestFixtures):
             driver.wait_and_click(outlet_cancel_btn(), XPATH)
             index += 1
 
-    @unittest.skip("Skipped for now")
+    #@unittest.skip("Skipped for now")
     def test_outlet_name_blank(self):
         """
         Verify that the name input box has a red border
@@ -72,7 +72,7 @@ class OutletNameChange(TestFixtures):
 
             assert self.has_error(outletNameElement) == True
 
-    # @unittest.skip("Skipped for now")
+    #@unittest.skip("Skipped for now")
     def test_outlet_name_length(self):
         """
         function to test outlets' name
@@ -87,19 +87,31 @@ class OutletNameChange(TestFixtures):
         # Random characters with a length of 50 to test outlet's name
         randomChars = 'g#QUfjeTakWbxHCS*6RQ579Wq6sBV3AT?#T!DrZ6#yJpbZzC$@'
 
+        i = 2
         for outletBox in outletBoxList:
+            outletCtrlStr = ".//*[@id='outletControl']/div[{0}]/div[1]".format(i)
             time.sleep(5)
-            outletBox.click()
-            driver.wait_until_clickable(outletNameElement, XPATH)
+            driver.wait_and_click(outletCtrlStr, XPATH)
+            driver.wait_for_visibility(outletNameElement, XPATH)
             driver.send_input(outletNameElement, XPATH, randomChars)
 
             driver.wait_and_click(outlet_save_btn(), XPATH)
+
+            time.sleep(2)
+            if driver.is_element_present(close_btn_msg(), XPATH):
+                assert self.is_hidden_string(success_msg()) == False
+                driver.wait_and_click(close_btn_msg(), XPATH)
+
+            time.sleep(5)
+            driver.wait_and_click(outletCtrlStr, XPATH)
             inputValue = driver.get_element_attribute(outletNameElement, XPATH, VALUE)
 
             #  assert input
             assert 50 >= len(inputValue) >= 1
 
-            driver.wait_and_click(close_btn_msg(), XPATH)
+            driver.wait_and_click(outlet_cancel_btn(), XPATH)
+
+            i += 1
 
         time.sleep(3)
         self.restore_outlet_defaults()

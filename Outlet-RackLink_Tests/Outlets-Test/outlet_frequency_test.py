@@ -27,12 +27,12 @@ class OutletFrequency(TestFixtures):
         ip_addr_ping = "//div[8]/div[2]/form[2]/p[1]/input"
         frequency = 0
 
-        outletCount = 1
         for outletBox in outletBoxList:
             time.sleep(5)
             outletBox.click()
 
-            driver.wait_and_click(enableBtn, XPATH)
+            if not self.is_on(enableBtn):
+                driver.wait_and_click(enableBtn, XPATH)
 
             driver.send_input(ip_addr_ping, XPATH, "8.8.8.8")
             driver.send_input(freqInputElem, XPATH, frequency)
@@ -45,10 +45,6 @@ class OutletFrequency(TestFixtures):
 
             assert self.has_error(freqInputElem) == True
 
-            outletCount += 1
-
-        time.sleep(8)
-
     #@unittest.skip("Skipped for now")
     def test_frequency_success_msg(self):
         """
@@ -60,31 +56,25 @@ class OutletFrequency(TestFixtures):
         driver = SeleniumDriver(self.driver)
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
         freqInputElem = "//div[8]/div[2]/form[2]/p[2]/input"
+        ip_addr_ping = "//div[8]/div[2]/form[2]/p[1]/input"
         enableBtn = "//div[8]/div[2]/form[1]/button[2]"
         frequency = 30
 
-        outletCount = 1
         for outletBox in outletBoxList:
-            outlet_count(outletCount)
             time.sleep(5)
             outletBox.click()
 
-            print driver.get_element_attribute(enableBtn, XPATH, ClASS)
-
-            if self.is_on(enableBtn) is False:
+            if not self.is_on(enableBtn):
                 driver.wait_and_click(enableBtn, XPATH)
 
+            driver.send_input(ip_addr_ping, XPATH, "8.8.8.8")
             driver.send_input(freqInputElem, XPATH, frequency)
             driver.wait_and_click(outlet_save_btn(), XPATH)
 
-            driver.wait_and_click(close_btn_msg(), XPATH)
-            assert self.is_hidden_string(success_msg()) == False
-            print "Success message appeared |  PASSED"
+            time.sleep(2)
+            if driver.is_element_present(close_btn_msg(), XPATH):
+                assert self.is_hidden_string(success_msg()) == False
+                driver.wait_and_click(close_btn_msg(), XPATH)
 
             time.sleep(1)
             assert driver.is_element_present("//div[8]", XPATH) == False
-            print "Outlet has shrunk out of edit mode | PASSED"
-
-            outletCount += 1
-
-        time.sleep(5)

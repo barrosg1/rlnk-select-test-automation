@@ -10,7 +10,8 @@ from Utils.test_operation import *
 class OutletIpAddressPing(TestFixtures):
 
     def test_ip_address_ping(self):
-        """ Asserts that the ip address input value is valid
+        """
+            Asserts that the ip address input value is valid
             test_operation.py contains all the functionality for each test
             Tests:
                 '8.8.8.8' -> Valid IP address that works
@@ -28,9 +29,7 @@ class OutletIpAddressPing(TestFixtures):
         invalid_ips = ['0.8.8.8', '8.8.8.0', '255.8.8.8', '20.255.90',
                        '8.8.8', '8.8.8.8.8']
 
-        index = 1
         for outletBox in outletBoxList:
-            print "\n::::: Outlet " + str(index) + " :::::\n"
             time.sleep(5)
             outletBox.click()
 
@@ -69,9 +68,6 @@ class OutletIpAddressPing(TestFixtures):
 
                         time.sleep(1)
 
-                    print "Testing: " + ip + " | has-error class appeared | " + "  PASSED"
                 driver.send_input(ipAddressInputElem, XPATH, "8.8.8.8")
                 driver.wait_and_click(outlet_save_btn(), XPATH)
                 driver.wait_and_click(close_btn_msg(), XPATH)
-
-            index += 1

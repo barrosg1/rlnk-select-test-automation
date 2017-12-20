@@ -12,7 +12,7 @@ class EmailSettings(TestFixtures):
 
     # -------------------- Tests --------------------------------
 
-    @unittest.skip("Skipped for now")
+    @unittest.skip("Needs to fix invalid ip host name")
     def test_ip_host_name(self):
         driver = SeleniumDriver(self.driver)
         emailIpHost = "//*[@id='emailSettings']/div[1]/p[1]/input"
@@ -34,10 +34,12 @@ class EmailSettings(TestFixtures):
             ipNodes = ip_nodes(ipHostVal)
             hostNodes = host_nodes(ipHostVal)
 
-            assert self.has_error(inputBox) == True
             assert self.is_hidden_string(notify_msg()) == False
 
             driver.element_click("btnOk", ID)
+
+            assert self.has_error(inputBox) == True
+
             ipInputClass = driver.get_element_attribute(emailIpHost, XPATH, ClASS)
 
             expectedOpGood = True
@@ -60,7 +62,7 @@ class EmailSettings(TestFixtures):
         time.sleep(3)
         self.restore_email_settings()
 
-    @unittest.skip("Skipped for now")
+    #@unittest.skip("Skipped for now")
     def test_sender_email(self):
         driver = SeleniumDriver(self.driver)
         send_email_input = "//*[@id='emailSettings']/div[1]/p[2]/input"
@@ -86,7 +88,7 @@ class EmailSettings(TestFixtures):
         time.sleep(3)
         self.restore_email_settings()
 
-    @unittest.skip("Skipped for now")
+    #@unittest.skip("Skipped for now")
     def test_port_number(self):
         driver = SeleniumDriver(self.driver)
         port_input = "//*[@id='emailSettings']/div[1]/p[3]/input"
@@ -111,7 +113,7 @@ class EmailSettings(TestFixtures):
         time.sleep(3)
         self.restore_email_settings()
 
-    @unittest.skip("Skipped for now")
+    #@unittest.skip("Skipped for now")
     def test_authentication(self):
         driver = SeleniumDriver(self.driver)
         username = "//*[@id='emailSettings']/div[2]/p[2]/input"
@@ -120,6 +122,7 @@ class EmailSettings(TestFixtures):
         showPass = "//*[@id='emailSettings']/div[2]/p[5]/input"  # show password
 
         self.open_email_settings()
+        time.sleep(3)
         self.default_ip_email_rep()
         time.sleep(3)
 
@@ -157,7 +160,7 @@ class EmailSettings(TestFixtures):
         time.sleep(3)
         self.restore_email_settings()
 
-    # @unittest.skip("Skipped for now")
+    #@unittest.skip("Needs fix")
     def test_recipients(self):
         driver = SeleniumDriver(self.driver)
         addRepBtn = "//*[@id='emailSettings']/div[3]/p[2]/button"  # add recipient button

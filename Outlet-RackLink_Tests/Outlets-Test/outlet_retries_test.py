@@ -11,7 +11,7 @@ from Utils.test_operation import *
 
 class OutletRetries(TestFixtures):
 
-    # @unittest.skip("Skipped for now")
+    #@unittest.skip("Skipped for now")
     def test_verify_notify_msg_zero(self):
         """
         Verify that a warning notification appears letting you know the valid range of cycle delay values
@@ -22,12 +22,18 @@ class OutletRetries(TestFixtures):
         driver = SeleniumDriver(self.driver)
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
         retriesInputElem = "//div[8]/div[2]/form[2]/p[3]/input"
+        ip_addr_ping = "//div[8]/div[2]/form[2]/p[1]/input"
+        enableBtn = "//div[8]/div[2]/form[1]/button[2]"
         retries = 0
 
         for outletBox in outletBoxList:
             time.sleep(5)
             outletBox.click()
 
+            if not self.is_on(enableBtn):
+                driver.wait_and_click(enableBtn, XPATH)
+
+            driver.send_input(ip_addr_ping, XPATH, "8.8.8.8")
             driver.send_input(retriesInputElem, XPATH, retries)
             driver.wait_and_click(outlet_save_btn(), XPATH)
 
@@ -49,6 +55,8 @@ class OutletRetries(TestFixtures):
         driver = SeleniumDriver(self.driver)
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
         retriesInputElem = "//div[8]/div[2]/form[2]/p[3]/input"
+        ip_addr_ping = "//div[8]/div[2]/form[2]/p[1]/input"
+        enableBtn = "//div[8]/div[2]/form[1]/button[2]"
         outlet_div = "//div[8]"
         retries = 5
 
@@ -56,16 +64,22 @@ class OutletRetries(TestFixtures):
             time.sleep(5)
             outletBox.click()
 
+            if not self.is_on(enableBtn):
+                driver.wait_and_click(enableBtn, XPATH)
+
+            driver.send_input(ip_addr_ping, XPATH, "8.8.8.8")
             driver.send_input(retriesInputElem, XPATH, retries)
             driver.wait_and_click(outlet_save_btn(), XPATH)
-            driver.wait_and_click(close_btn_msg(), XPATH)
 
+            driver.wait_for_visibility(success_msg(),XPATH)
             assert self.is_hidden_string(success_msg()) == False
+
+            driver.wait_and_click(close_btn_msg(), XPATH)
 
             driver.wait_for_invisibility(outlet_div, XPATH)
             assert driver.is_element_present(outlet_div, XPATH) == False
 
-    # @unittest.skip("Skipped for now")
+    #@unittest.skip("Skipped for now")
     def test_verify_notify_msg_250(self):
         """
         Set the Retries to 250 and then click on the Save button.
@@ -77,12 +91,18 @@ class OutletRetries(TestFixtures):
         driver = SeleniumDriver(self.driver)
         outletBoxList = self.driver.find_elements_by_xpath(outlet_box_xpath())
         retriesInputElem = "//div[8]/div[2]/form[2]/p[3]/input"
+        ip_addr_ping = "//div[8]/div[2]/form[2]/p[1]/input"
+        enableBtn = "//div[8]/div[2]/form[1]/button[2]"
         retries = 250
 
         for outletBox in outletBoxList:
             time.sleep(5)
             outletBox.click()
 
+            if not self.is_on(enableBtn):
+                driver.wait_and_click(enableBtn, XPATH)
+
+            driver.send_input(ip_addr_ping, XPATH, "8.8.8.8")
             driver.send_input(retriesInputElem, XPATH, retries)
             driver.wait_and_click(outlet_save_btn(), XPATH)
 

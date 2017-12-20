@@ -25,7 +25,6 @@ class OutletCycleDelay(TestFixtures):
         cycleInput = '//div[8]/div[2]/form[1]/p[2]/input'
         startCycleBtn = "//div[8]/div[2]/form[1]/p[2]/button"
 
-        outletCount = 1
         index = 2
         for outletBox in outletBoxList:
             outletCtrlStr = ".//*[@id='outletControl']/div[{0}]/div[1]".format(index)
@@ -34,7 +33,6 @@ class OutletCycleDelay(TestFixtures):
             if self.is_on(outletCtrlStr) is False:
                 index += 1
             else:
-                outlet_count(outletCount)
                 outletBox.click()
                 driver.wait_until_clickable(cycleInput, XPATH)
                 driver.send_input(cycleInput, XPATH, cycleNum)
@@ -48,9 +46,7 @@ class OutletCycleDelay(TestFixtures):
                 assert self.has_error(cycleInput) == True
                 driver.wait_and_click(outlet_cancel_btn(), XPATH)
 
-                outletCount += 1
-
-    @unittest.skip("Skipped for now")
+    #@unittest.skip("Skipped for now")
     def test_outlet_cycle(self):
         """
         Verify that the cycle input is between 1 - 999
@@ -68,13 +64,11 @@ class OutletCycleDelay(TestFixtures):
         startCycleBtn = "//div[8]/div[2]/form[1]/p[2]/button"
         outletEditMode = "//div[8]"
 
-        outletCount = 1
         index = 2
         for outletBox in outletBoxList:
             outletCtrlStr = "//*[@id='outletControl']/div[{0}]/div[1]".format(index)
             time.sleep(5)
 
-            outlet_count(outletCount)
             outletBox.click()
             driver.wait_until_clickable(cycleInput, XPATH)
             driver.send_input(cycleInput, XPATH, cycleNum)
@@ -82,42 +76,31 @@ class OutletCycleDelay(TestFixtures):
             # Verify that the cycle input is between 1 - 999
             cycleInputVal = driver.get_element_attribute(cycleInput, XPATH, VALUE)
             assert 1 <= int(cycleInputVal) <= 999
-            print "Input value is between 1 - 999 |  PASSED"
 
             driver.element_click(startCycleBtn, XPATH)
 
             # Verify “Are you sure…” message appears
+            driver.wait_for_visibility(notify_msg(), XPATH)
             assert self.is_hidden_string(notify_msg()) == False
-            print "Are you sure.. message appeared |  PASSED"
 
             driver.element_click("btnOk", ID)
 
             # Verify success message appears
-            driver.wait_until_clickable("successMsg", ID)
-            successMsg = driver.is_element_present("successMsg", ID)
-            if successMsg:
-                assert successMsg == True
-                print "Success Message appeared |  PASSED"
-
-            driver.wait_and_click(close_btn_msg(), XPATH)
+            time.sleep(1)
+            if driver.is_element_present(success_msg(), XPATH):
+                assert self.is_hidden_string(success_msg()) == False
 
             # Verify that the outlet face has changed color to red
             time.sleep(5)
             driver.get_element(outletCtrlStr, XPATH)
             assert self.is_on(outletCtrlStr) == False
-            print "Outlet state is off for " + str(cycleNum) + " seconds |  PASSED"
 
             # Verify that the outlet face has changed color to green
             time.sleep(cycleNum)
             driver.get_element(outletCtrlStr, XPATH)
             assert self.is_on(outletCtrlStr) == True
-            print "Outlet state changed back to on |  PASSED"
-            
+
             # Verify that the outlet shrinks out of edit 0mode
             assert driver.is_element_present(outletEditMode, XPATH) == False
-            print "Outlet shrunk out of edit mode | PASSED"
 
-            outletCount += 1
             index += 1
-
-            time.sleep(8)

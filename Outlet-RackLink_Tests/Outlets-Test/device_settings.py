@@ -9,18 +9,6 @@ from Utils.string_constants import *
 
 class DeviceSettings(TestFixtures):
 
-    def open_device_settings(self):
-        menuIcon = ".//*[@id='wrapper']/header/i"
-        deviceSettings = "//nav/ul/li[3]"
-
-        driver = SeleniumDriver(self.driver)
-        driver.get_element(menuIcon, XPATH)
-        driver.wait_and_click(menuIcon, XPATH)
-        time.sleep(3)
-        driver.force_click(deviceSettings, XPATH)
-
-    # -------------------- Tests --------------------------------
-
     # @unittest.skip("Skipped for now")
     def test_device_name(self):
         driver = SeleniumDriver(self.driver)
@@ -158,7 +146,6 @@ class DeviceSettings(TestFixtures):
         self.open_device_settings()
 
         sequenceStateDefault = driver.get_element_attribute(sequenceState, ID, ClASS)
-        print sequenceStateDefault
 
         time.sleep(3)
         driver.wait_and_click(sequenceState, ID)
@@ -175,6 +162,16 @@ class DeviceSettings(TestFixtures):
         assert sequenceStateDefault != changedSequenceState
 
     # -------------------- Functions --------------------------------
+
+    def open_device_settings(self):
+        menuIcon = ".//*[@id='wrapper']/header/i"
+        deviceSettings = "//nav/ul/li[3]"
+
+        driver = SeleniumDriver(self.driver)
+        driver.get_element(menuIcon, XPATH)
+        driver.wait_and_click(menuIcon, XPATH)
+        time.sleep(3)
+        driver.force_click(deviceSettings, XPATH)
 
     def restore_device_settings(self):
         driver = SeleniumDriver(self.driver)
