@@ -1,2 +1,25 @@
-Selenium_Driver.py: handy class to minimize selenium repetitive tasks
-string_constants.py: Utils that return a string (primarily for locators)
+Python IDE: PyCharm
+Python Version:  2.7.13
+Selenium Web driver version: 3.8.0
+
+Note: IE version 9 and onwards does not accept username and password in the url. For example:
+
+    http://username:password@192.168.0.34 will NOT work
+
+To run the test on different browsers (IE, Chrome, Firefox, Edge) in parallel, Selenium Standalone Server must be
+used. For this test suite, Selenium Server is not used. See http://www.seleniumhq.org/download/ for more information.
+
+** Main Files **
+- fixtures_test.py: extends unnittest and sets up the browsers to test
+- selenium_driver.py: handy class to minimize selenium repetitive tasks
+- string_constants.py: functions that return strings (primarily for element locators)
+- test_operations.py: general functions
+- run.py: this is where the tests need to be executed. To test individual test, comment out the other ones in the tests array
+- uut_addresses.txt: this is where the UUT ip addresses (url) are stored to test
+- test_ctrl_and_atp.txt: ip addresses to test CTRL and address to ping (this test isn't finished)
+
+- HTML Reports -
+To see results in HTML, open HTML_Reports directory after executing the test suite. The executed test will have an html
+file with the date and time of the execution.
+
+See selenium_help directory to see most used functions, xpaths, and other useful information.
