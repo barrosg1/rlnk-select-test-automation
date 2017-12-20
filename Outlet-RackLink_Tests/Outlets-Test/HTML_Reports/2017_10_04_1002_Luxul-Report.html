@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Luxul Automated Test Results</title>
+    <meta name="generator" content="HTMLTestRunner 2.0.0"/>
+    <meta name="version" content="2.0.0"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap -->
+<link href="../css/bootstrap.min.css" rel="stylesheet">
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="../js/jquery-3.1.1.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="../js/bootstrap.min.js"></script>
+<!-- Project CSS -->
+<link href="../css/runner.css" rel="stylesheet">
+<!-- Project JS -->
+<script src="../js/runner.js"></script>
+
+</head>
+
+<body>
+
+<div class="container">
+    <div class="row report-title">
+    <h1 id='report_title' class="text-center">Luxul Automated Test Results</h1>
+</div>
+
+<div id='header_parameters' class='row text-center report-parameters'>
+    <div class="col-xs-6 col-md-4">
+        <p class='text-justify attribute'><strong>Start Time:</strong> 2017-10-04 10:02:37.949000</p>
+<p class='text-justify attribute'><strong>Stop Time:</strong> 2017-10-04 10:25:28.176000</p>
+<p class='text-justify attribute'><strong>Duration:</strong> 0:22:50.227000</p>
+<p class='text-justify attribute'><strong>Status:</strong> Passed 3, Errors 3</p>
+
+    </div>
+</div>
+
+<div class='report-description'>
+    <div id='report_description' class='row text-center'>RackLink Select Testing RLNK-415R</div>
+</div>
+
+    <div class='text-center buttons'>
+<div id='show_detail_line' class="btn-group pagination-centered" role="group" aria-label="TESTE">
+    <button type="button" class="btn btn-success" data-toggle="button" aria-pressed="false" data-placement="top"
+            title="Show only the execution summary" onclick="showCase(0)">Summary
+    </button>
+    <button type="button" class="btn btn-warning" data-toggle="button" aria-pressed="false" data-placement="top"
+            title="Show skipped test cases" onclick="showCase(3)">Skipped
+    </button>
+    <button type="button" class="btn btn-danger" data-toggle="button" aria-pressed="false" data-placement="top"
+            title="Show the filed test cases" onclick="showCase(1)">Failed
+    </button>
+    <button type="button" class="btn btn-primary" data-toggle="tooltip" aria-pressed="false" data-placement="top"
+            title="Show all test cases" onclick="showCase(2)">All
+    </button>
+</div>
+</div>
+
+<table id='result_table' class='table table-bordered table-responsive table-curved'>
+    <colgroup>
+        <col/>
+        <col/>
+        <col/>
+        <col/>
+        <col/>
+        <col/>
+    </colgroup>
+    <tr id='header_row' class="text-center bg-grey">
+        <td>Test Group/Test case</td>
+        <td>Count</td>
+        <td>Pass</td>
+        <td>Fail</td>
+        <td>Error</td>
+        <td>Skip</td>
+        <td>View</td>
+    </tr>
+    <tr class='errorClass'>
+    <td>outlet_recovery_action.OutletRecoveryAction</td>
+    <td class="text-center">6</td>
+    <td class="text-center">3</td>
+    <td class="text-center">0</td>
+    <td class="text-center">3</td>
+    <td class="text-center">0</td>
+    <td class="text-center">
+        <a onclick="showClassDetail('c1', 6)">Detail</a>
+    </td>
+</tr>
+<tr id='pt1.1' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_power_cycle_once</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr id='ft1.2' class='none bg-info'>
+    <td>
+        <div class='testcase'>test_power_cycle_until_recovery</div>
+    </td>
+    <td colspan='6'>
+        <div class="text-center">
+            <a class="popup_link text-center" onfocus='blur()' onclick="showTestDetail('div_ft1.2')">ERROR</a>
+        </div>
+        <!--css div popup start-->
+        <div id='div_ft1.2' class="popup_window test_output">
+            <div class='close_button pull-right'>
+                <button type="button" class="close" aria-label="Close" onfocus='this.blur();'
+                        onclick="document.getElementById('div_ft1.2').style.display='none'"><span
+                        aria-hidden="true">&times;</span></button>
+                <!--<a onfocus='this.blur();' onclick="document.getElementById('div_ft1.2').style.display='none'">[x]</a>-->
+            </div>
+            <div class="text-left pull-left">
+                <pre class="text-left">ft1.2: Traceback (most recent call last):
+  File "C:\rlnk-select-test-automation\Outlet-RackLink_Tests\Outlets-Test\outlet_recovery_action.py", line 465, in test_power_cycle_until_recovery
+    self.ctrl_device_power()  # turn outlet off in the control device
+  File "C:\rlnk-select-test-automation\Outlet-RackLink_Tests\Outlets-Test\outlet_recovery_action.py", line 550, in ctrl_device_power
+    ctrlDriver.element_click(outlet3, XPATH)
+  File "C:\rlnk-select-test-automation\Outlet-RackLink_Tests\Outlets-Test\Utils\selenium_driver.py", line 71, in element_click
+    element.click()
+AttributeError: 'bool' object has no attribute 'click'</pre>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <!--css div popup end-->
+    </td>
+</tr>
+<tr id='pt1.3' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_power_off</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr id='ft1.4' class='none bg-info'>
+    <td>
+        <div class='testcase'>test_power_off_pending_recovery</div>
+    </td>
+    <td colspan='6'>
+        <div class="text-center">
+            <a class="popup_link text-center" onfocus='blur()' onclick="showTestDetail('div_ft1.4')">ERROR</a>
+        </div>
+        <!--css div popup start-->
+        <div id='div_ft1.4' class="popup_window test_output">
+            <div class='close_button pull-right'>
+                <button type="button" class="close" aria-label="Close" onfocus='this.blur();'
+                        onclick="document.getElementById('div_ft1.4').style.display='none'"><span
+                        aria-hidden="true">&times;</span></button>
+                <!--<a onfocus='this.blur();' onclick="document.getElementById('div_ft1.4').style.display='none'">[x]</a>-->
+            </div>
+            <div class="text-left pull-left">
+                <pre class="text-left">ft1.4: Traceback (most recent call last):
+  File "C:\rlnk-select-test-automation\Outlet-RackLink_Tests\Outlets-Test\outlet_recovery_action.py", line 183, in test_power_off_pending_recovery
+    self.change_ip_address_to_default(outletCtrlStr, ipAddressInputElem)
+  File "C:\rlnk-select-test-automation\Outlet-RackLink_Tests\Outlets-Test\outlet_recovery_action.py", line 570, in change_ip_address_to_default
+    driver.wait_and_click(close_btn_msg(), XPATH)
+  File "C:\rlnk-select-test-automation\Outlet-RackLink_Tests\Outlets-Test\Utils\selenium_driver.py", line 226, in wait_and_click
+    self.wait_until_clickable(locator, locatorType)
+  File "C:\rlnk-select-test-automation\Outlet-RackLink_Tests\Outlets-Test\Utils\selenium_driver.py", line 129, in wait_until_clickable
+    element = wait.until(EC.element_to_be_clickable((byType, locator)))
+  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
+    raise TimeoutException(message, screen, stacktrace)
+TimeoutException: Message:</pre>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <!--css div popup end-->
+    </td>
+</tr>
+<tr id='pt1.5' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_power_on</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr id='ft1.6' class='none bg-info'>
+    <td>
+        <div class='testcase'>test_power_on_pending_recovery</div>
+    </td>
+    <td colspan='6'>
+        <div class="text-center">
+            <a class="popup_link text-center" onfocus='blur()' onclick="showTestDetail('div_ft1.6')">ERROR</a>
+        </div>
+        <!--css div popup start-->
+        <div id='div_ft1.6' class="popup_window test_output">
+            <div class='close_button pull-right'>
+                <button type="button" class="close" aria-label="Close" onfocus='this.blur();'
+                        onclick="document.getElementById('div_ft1.6').style.display='none'"><span
+                        aria-hidden="true">&times;</span></button>
+                <!--<a onfocus='this.blur();' onclick="document.getElementById('div_ft1.6').style.display='none'">[x]</a>-->
+            </div>
+            <div class="text-left pull-left">
+                <pre class="text-left">ft1.6: Traceback (most recent call last):
+  File "C:\rlnk-select-test-automation\Outlet-RackLink_Tests\Outlets-Test\outlet_recovery_action.py", line 340, in test_power_on_pending_recovery
+    driver.wait_text_to_be_present_in_elem(autoPingTitle, XPATH, 'AutoPing Replied', waitTime)
+  File "C:\rlnk-select-test-automation\Outlet-RackLink_Tests\Outlets-Test\Utils\selenium_driver.py", line 209, in wait_text_to_be_present_in_elem
+    element = wait.until(EC.text_to_be_present_in_element((byType, locator), text))
+  File "C:\Python27\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
+    raise TimeoutException(message, screen, stacktrace)
+TimeoutException: Message:</pre>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <!--css div popup end-->
+    </td>
+</tr>
+
+    <tr id='total_row' class="text-center bg-grey">
+        <td>Total</td>
+        <td>6</td>
+        <td>3</td>
+        <td>0</td>
+        <td>3</td>
+        <td>0</td>
+        <td>&nbsp</td>
+    </tr>
+</table>
+
+</div>
+
+<footer>
+    <div id='foter' class="text-center">
+    <p>Middle Atlantic</p>
+</div>
+</footer>
+
+</body>
+
+</html>

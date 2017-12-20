@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Luxul Automated Test Results</title>
+    <meta name="generator" content="HTMLTestRunner 2.0.0"/>
+    <meta name="version" content="2.0.0"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap -->
+<link href="../css/bootstrap.min.css" rel="stylesheet">
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="../js/jquery-3.1.1.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="../js/bootstrap.min.js"></script>
+<!-- Project CSS -->
+<link href="../css/runner.css" rel="stylesheet">
+<!-- Project JS -->
+<script src="../js/runner.js"></script>
+
+</head>
+
+<body>
+
+<div class="container">
+    <div class="row report-title">
+    <h1 id='report_title' class="text-center">Luxul Automated Test Results</h1>
+</div>
+
+<div id='header_parameters' class='row text-center report-parameters'>
+    <div class="col-xs-6 col-md-4">
+        <p class='text-justify attribute'><strong>Start Time:</strong> 2017-10-02 10:59:55.341000</p>
+<p class='text-justify attribute'><strong>Stop Time:</strong> 2017-10-02 11:25:09.491000</p>
+<p class='text-justify attribute'><strong>Duration:</strong> 0:25:14.150000</p>
+<p class='text-justify attribute'><strong>Status:</strong> Passed 32, Skipped 2</p>
+
+    </div>
+</div>
+
+<div class='report-description'>
+    <div id='report_description' class='row text-center'>Luxul Testing Volt2</div>
+</div>
+
+    <div class='text-center buttons'>
+<div id='show_detail_line' class="btn-group pagination-centered" role="group" aria-label="TESTE">
+    <button type="button" class="btn btn-success" data-toggle="button" aria-pressed="false" data-placement="top"
+            title="Show only the execution summary" onclick="showCase(0)">Summary
+    </button>
+    <button type="button" class="btn btn-warning" data-toggle="button" aria-pressed="false" data-placement="top"
+            title="Show skipped test cases" onclick="showCase(3)">Skipped
+    </button>
+    <button type="button" class="btn btn-danger" data-toggle="button" aria-pressed="false" data-placement="top"
+            title="Show the filed test cases" onclick="showCase(1)">Failed
+    </button>
+    <button type="button" class="btn btn-primary" data-toggle="tooltip" aria-pressed="false" data-placement="top"
+            title="Show all test cases" onclick="showCase(2)">All
+    </button>
+</div>
+</div>
+
+<table id='result_table' class='table table-bordered table-responsive table-curved'>
+    <colgroup>
+        <col/>
+        <col/>
+        <col/>
+        <col/>
+        <col/>
+        <col/>
+    </colgroup>
+    <tr id='header_row' class="text-center bg-grey">
+        <td>Test Group/Test case</td>
+        <td>Count</td>
+        <td>Pass</td>
+        <td>Fail</td>
+        <td>Error</td>
+        <td>Skip</td>
+        <td>View</td>
+    </tr>
+    <tr class='skipClass'>
+    <td>date_time_settings.DateTimeSettings</td>
+    <td class="text-center">2</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center">1</td>
+    <td class="text-center">
+        <a onclick="showClassDetail('c1', 2)">Detail</a>
+    </td>
+</tr>
+<tr id='pt1.1' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_NTP</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr id='ft1.2' class='none bg-warning'>
+    <td>
+        <div class='testcase'>test_date_time</div>
+    </td>
+    <td colspan='6'>
+        <div class="text-center">
+            <a class="popup_link text-center" onfocus='blur()' onclick="showTestDetail('div_ft1.2')">SKIP</a>
+        </div>
+        <!--css div popup start-->
+        <div id='div_ft1.2' class="popup_window test_output">
+            <div class='close_button pull-right'>
+                <button type="button" class="close" aria-label="Close" onfocus='this.blur();'
+                        onclick="document.getElementById('div_ft1.2').style.display='none'"><span
+                        aria-hidden="true">&times;</span></button>
+                <!--<a onfocus='this.blur();' onclick="document.getElementById('div_ft1.2').style.display='none'">[x]</a>-->
+            </div>
+            <div class="text-left pull-left">
+                <pre class="text-left">ft1.2: NTP Server URL needs fix</pre>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <!--css div popup end-->
+    </td>
+</tr>
+<tr class='passClass'>
+    <td>device_settings.DeviceSettings</td>
+    <td class="text-center">6</td>
+    <td class="text-center">6</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center">
+        <a onclick="showClassDetail('c2', 6)">Detail</a>
+    </td>
+</tr>
+<tr id='pt2.1' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_account_name_number</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr id='pt2.2' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_device_description</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr id='pt2.3' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_device_location</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr id='pt2.4' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_device_name</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr id='pt2.5' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_initial_outlet_state</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr id='pt2.6' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_seq_power_up</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr class='skipClass'>
+    <td>email_settings.EmailSettings</td>
+    <td class="text-center">5</td>
+    <td class="text-center">4</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center">1</td>
+    <td class="text-center">
+        <a onclick="showClassDetail('c3', 5)">Detail</a>
+    </td>
+</tr>
+<tr id='pt3.1' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_authentication</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr id='ft3.2' class='none bg-warning'>
+    <td>
+        <div class='testcase'>test_ip_host_name</div>
+    </td>
+    <td colspan='6'>
+        <div class="text-center">
+            <a class="popup_link text-center" onfocus='blur()' onclick="showTestDetail('div_ft3.2')">SKIP</a>
+        </div>
+        <!--css div popup start-->
+        <div id='div_ft3.2' class="popup_window test_output">
+            <div class='close_button pull-right'>
+                <button type="button" class="close" aria-label="Close" onfocus='this.blur();'
+                        onclick="document.getElementById('div_ft3.2').style.display='none'"><span
+                        aria-hidden="true">&times;</span></button>
+                <!--<a onfocus='this.blur();' onclick="document.getElementById('div_ft3.2').style.display='none'">[x]</a>-->
+            </div>
+            <div class="text-left pull-left">
+                <pre class="text-left">ft3.2: Needs to fix invalid ip host name</pre>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <!--css div popup end-->
+    </td>
+</tr>
+<tr id='pt3.3' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_port_number</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr id='pt3.4' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_recipients</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr id='pt3.5' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_sender_email</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr class='passClass'>
+    <td>network_settings.NetworkSettings</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center">
+        <a onclick="showClassDetail('c4', 1)">Detail</a>
+    </td>
+</tr>
+<tr id='pt4.1' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_network</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr class='passClass'>
+    <td>outlet_name_change.OutletNameChange</td>
+    <td class="text-center">3</td>
+    <td class="text-center">3</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center">
+        <a onclick="showClassDetail('c5', 3)">Detail</a>
+    </td>
+</tr>
+<tr id='pt5.1' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_outlet_name_blank</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr id='pt5.2' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_outlet_name_length</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr id='pt5.3' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_outlet_name_not_changed</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr class='passClass'>
+    <td>outlet_in_sequence_checkbox.OutletInSequence</td>
+    <td class="text-center">4</td>
+    <td class="text-center">4</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center">
+        <a onclick="showClassDetail('c6', 4)">Detail</a>
+    </td>
+</tr>
+<tr id='pt6.1' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_check_inSeq_only</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr id='pt6.2' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_inSeq_selected</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr id='pt6.3' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_seq_down: Tests sequence down</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr id='pt6.4' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_seq_up: Tests sequence up</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr class='passClass'>
+    <td>outlet_status_log.OutletStatusLog</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center">
+        <a onclick="showClassDetail('c7', 1)">Detail</a>
+    </td>
+</tr>
+<tr id='pt7.1' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_outlet_status_log</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr class='passClass'>
+    <td>outlet_cycle_delay.OutletCycleDelay</td>
+    <td class="text-center">2</td>
+    <td class="text-center">2</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center">
+        <a onclick="showClassDetail('c8', 2)">Detail</a>
+    </td>
+</tr>
+<tr id='pt8.1' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_cycle_invalid_input</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr id='pt8.2' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_outlet_cycle</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr class='passClass'>
+    <td>outlet_edit_cancel_func.OutletEditCancel</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center">
+        <a onclick="showClassDetail('c9', 1)">Detail</a>
+    </td>
+</tr>
+<tr id='pt9.1' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_edit_cancel_btn</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr class='passClass'>
+    <td>outlet_ip_address_to_ping.OutletIpAddressPing</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center">
+        <a onclick="showClassDetail('c10', 1)">Detail</a>
+    </td>
+</tr>
+<tr id='pt10.1' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_ip_address_ping</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr class='passClass'>
+    <td>outlet_retries_test.OutletRetries</td>
+    <td class="text-center">3</td>
+    <td class="text-center">3</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center">
+        <a onclick="showClassDetail('c11', 3)">Detail</a>
+    </td>
+</tr>
+<tr id='pt11.1' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_verify_notify_msg_250</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr id='pt11.2' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_verify_notify_msg_zero</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr id='pt11.3' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_verify_success_msg</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr class='passClass'>
+    <td>outlet_frequency_test.OutletFrequency</td>
+    <td class="text-center">2</td>
+    <td class="text-center">2</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center">
+        <a onclick="showClassDetail('c12', 2)">Detail</a>
+    </td>
+</tr>
+<tr id='pt12.1' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_frequency_success_msg</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr id='pt12.2' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_frequency_zero_input</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr class='passClass'>
+    <td>outlet_powerstate_change.OutletPowerState</td>
+    <td class="text-center">3</td>
+    <td class="text-center">3</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center">
+        <a onclick="showClassDetail('c13', 3)">Detail</a>
+    </td>
+</tr>
+<tr id='pt13.1' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_power_state_btn_notify_msg</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr id='pt13.2' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_power_state_verify_changed</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+<tr id='pt13.3' class='hiddenRow bg-success'>
+    <td>
+        <div class='testcase'>test_power_state_verify_not_changed</div>
+    </td>
+    <td colspan='6' align='center'>PASS</td>
+</tr>
+
+    <tr id='total_row' class="text-center bg-grey">
+        <td>Total</td>
+        <td>34</td>
+        <td>32</td>
+        <td>0</td>
+        <td>0</td>
+        <td>2</td>
+        <td>&nbsp</td>
+    </tr>
+</table>
+
+</div>
+
+<footer>
+    <div id='foter' class="text-center">
+    <p>Middle Atlantic</p>
+</div>
+</footer>
+
+</body>
+
+</html>
